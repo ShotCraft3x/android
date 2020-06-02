@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".Configuracion"
+    android:orientation="vertical"
+    android:padding="30dp">
+
+    <TextView
+        android:layout_marginTop="100dp"
+
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Configuración"
+        android:textColor="#000"
+        android:textSize="30dp" />
+
+    <EditText
+        android:layout_marginTop="40dp"
+        android:id="@+id/txtpin"
+        android:textColor="#000"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="20"
+        android:inputType="textPersonName"
+        android:text="PIN" />
+
+    <EditText
+        android:layout_marginTop="40dp"
+        android:id="@+id/txttiempo"
+        android:textColor="#000"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="20"
+        android:inputType="textPersonName"
+        android:text="Tiempo de notificacion" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Establecer contacto favorito"
+        android:textColor="#000"
+        android:textSize="20dp" />
+
+    <Button
+        android:layout_marginTop="50dp"
+        android:textColor="#000"
+        android:background="#F8C53F"
+        android:id="@+id/btnregistrar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Guardar" />
+
+    <Button
+        android:layout_marginTop="50dp"
+        android:textColor="#000"
+        android:background="#F8C53F"
+        android:id="@+id/btncerrarsesion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cerrar sesion" />
+
+
+</LinearLayout>
