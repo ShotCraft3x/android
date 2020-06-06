@@ -19,13 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -36,20 +29,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.maps.android.PolyUtil;
-import com.proyectoandroid.directionhelpers.FetchURL;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
-import java.util.Map;
-import directionhelpers.TaskLoadedCallback;
-
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, TaskLoadedCallback,
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         LocationListener,BottomNavigationView.OnNavigationItemSelectedListener{
 
     private int permisoubicacion;
@@ -68,8 +51,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Polyline currentPolyline;
     private MarkerOptions place1, place2;
 
-    //-------------- Variables para trazar ruta -------- JSON
-    private JSONObject jso;
+
+    public LocationListener locationListener = null;
+    public Location location = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,66 +110,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(lat,lng)).zoom(14).bearing(80).build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        Toast.makeText(getApplicationContext(),"LLego aquiiii 333",Toast.LENGTH_LONG).show();
 
-
-        //---------------- AQUI SE TRAZA LA RUTA -----------------------
-        String url = "https://maps.googleapis.com/maps/api/directions/json?origin="+ lat+","+lng+"&destination=-29.8905845,-71.2474624&key=AIzaSyB0ZS8JiCRLEiFui1GZi57UBKFCAenAymQ";
-        RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    jso = new JSONObject(response);
-                    trazarRuta(jso);
-                    Log.i("jsonRuta:",""+response);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-        queue.add(stringRequest);
 
 
 
     }
 
-    private void trazarRuta(JSONObject jso) {
-        JSONArray jRoutes;
-        JSONArray jLegs;
-        JSONArray jSteps;
 
-        try {
-            jRoutes = jso.getJSONArray("routes");
-            for (int i=0; i<jRoutes.length();i++){
-
-                jLegs = ((JSONObject)(jRoutes.get(i))).getJSONArray("legs");
-
-                for (int j=0; j<jLegs.length();j++){
-
-                    jSteps = ((JSONObject)jLegs.get(j)).getJSONArray("steps");
-
-                    for (int k = 0; k<jSteps.length();k++){
-
-
-                        String polyline = ""+((JSONObject)((JSONObject)jSteps.get(k)).get("polyline")).get("points");
-                        Log.i("end",""+polyline);
-                        List<LatLng> list = PolyUtil.decode(polyline);
-                        mMap.addPolyline(new PolylineOptions().addAll(list).color(Color.GRAY).width(10));
-                    }
-                }
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     public void actualizarUbicacion(Location location) {
         if (location != null) {
@@ -207,9 +139,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return;
         }
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        //Locacion GPS o NETWORK
+        Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         actualizarUbicacion(location);
-        Toast.makeText(getApplicationContext(),"LLego aquiiii",Toast.LENGTH_LONG).show();
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,15000,0,this);
 
     }
@@ -230,21 +162,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    private String getUrl(LatLng origin, LatLng dest, String directionMode) {
-        // Origin of route
-        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
-        // Destination of route
-        String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
-        // Mode
-        String mode = "mode=" + directionMode;
-        // Building the parameters to the web service
-        String parameters = str_origin + "&" + str_dest + "&" + mode;
-        // Output format
-        String output = "json";
-        // Building the url to the web service
-        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=" + getString(R.string.google_maps_key);
-        return url;
-    }
+
 
     @Override
     public void onLocationChanged(Location location) {
@@ -295,6 +213,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Intent intent = new Intent(this.getApplicationContext(),Configuracion.class);
             startActivity(intent);
         }
+
         if(item.getItemId() == R.id.nav_estadisticas){
             Intent intent = new Intent(this.getApplicationContext(),MainActivity.class);
             startActivity(intent);
@@ -311,10 +230,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return false;
     }
 
-    @Override
-    public void onTaskDone(Object... values) {
-        if (currentPolyline != null)
-            currentPolyline.remove();
-        currentPolyline = mMap.addPolyline((PolylineOptions) values[0]);
-    }
 }

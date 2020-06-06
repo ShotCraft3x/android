@@ -14,10 +14,10 @@ public class RutasRealizadas extends AppCompatActivity {
     ListView lista;
     //almacena los datos de los lugares
     String[][] datos={
-            { "Fecha:12-05-2020" , "Hora:13:00-21:00" ,"Ruta:La Serena-Coquimbo" },
-            { "Fecha:06-05-2020" , "Hora:14:00-21:30" ,"Ruta:La Serena-Coquimbo" },
-            { "Fecha:05-05-2020" , "Hora:16:00-15:20" ,"Ruta:La Serena-Coquimbo" },
-            { "Fecha:02-05-2020" , "Hora:17:00-15:10" ,"Ruta:La Serena-Coquimbo" },
+            { "","Horario:13:00-21:00" ,"Thoros Bike" },
+            { "","Horario:14:00-21:30" ,"Ciclos Acquea" },
+            { "","Horario:16:00-15:20" ,"Cycles Serena" },
+            { "","Horario:17:00-15:10" ,"Original Bike" },
     };
     //Obtiene  las imagenes de la carpeta drawable
     int[] datosImg={R.drawable.ruta3,R.drawable.ruta3,R.drawable.ruta3,R.drawable.ruta3};
