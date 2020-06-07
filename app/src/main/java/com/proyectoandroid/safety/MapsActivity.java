@@ -110,6 +110,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(lat,lng)).zoom(14).bearing(80).build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+
+
         Toast.makeText(getApplicationContext(),"LLego aquiiii 333",Toast.LENGTH_LONG).show();
 
 
@@ -220,8 +223,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         if(item.getItemId() == R.id.nav_rutasrealizadas){
-            Intent intent = new Intent(this.getApplicationContext(),RutasRealizadas.class);
-            startActivity(intent);
+            Intent visorDetalle=new Intent(this.getApplicationContext(), RutasRealizadas.class);
+
+            startActivity(visorDetalle);
 
         }
 

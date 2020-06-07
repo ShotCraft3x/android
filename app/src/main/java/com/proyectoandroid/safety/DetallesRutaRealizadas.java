@@ -9,11 +9,16 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.Locale;
 
 public class DetallesRutaRealizadas extends AppCompatActivity implements View.OnClickListener {
 
     private Button btnruta;
+
+    private double lat = 0.0;
+    private double lng = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +37,9 @@ public class DetallesRutaRealizadas extends AppCompatActivity implements View.On
         if(b!=null){
             ruta.setText(b.getString("RUT"));
             fecha.setText(b.getString("FEC"));
+            lat = b.getDouble("lat");
+            lng = b.getDouble("lng");
+
 
 
         }
@@ -40,7 +48,9 @@ public class DetallesRutaRealizadas extends AppCompatActivity implements View.On
     @Override
     public void onClick(View view) {
         if(view.getId()==R.id.btntomaruta){
-            String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?q=loc:%f,%f", 28.43242324,77.8977673);
+            LatLng p1 = new LatLng(lat,lng);
+
+            String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?q=loc:%f,%f", p1.latitude,p1.longitude);
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
             startActivity(intent);
         }
