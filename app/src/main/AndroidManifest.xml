@@ -22,7 +22,6 @@
         <activity android:name=".PermisoUbicacion" />
         <activity android:name=".Configuracion" />
         <activity android:name=".PassCode" />
-        <activity android:name=".IniciarRuta" />
         <activity android:name=".IniciarSesion" />
         <activity android:name=".Registro" />
         <activity android:name=".Descubre" />

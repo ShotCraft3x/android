@@ -7,38 +7,46 @@
     tools:context=".IniciarSesion"
     android:orientation="vertical"
     android:padding="20dp"
-    android:background="@drawable/fondoprincipal"
     >
 
 
     <TextView
         android:layout_marginTop="90dp"
         android:id="@+id/textVi"
-
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textSize="30dp"
         android:text="Inicio sesion"
         android:textColor="@color/text_black"/>
-
-    <EditText
-        android:layout_marginTop="20dp"
-        android:id="@+id/txtcorreo"
-        android:textSize="25dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/username_text_input_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Correo"
-        android:textColorHint="@color/text_black"/>
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_marginTop="20dp"
+            android:id="@+id/txtcorreo"
+            android:textSize="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Correo"
+            android:textColorHint="@color/text_black"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/password_text_input_layout"
+        app:passwordToggleEnabled="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <EditText
         android:id="@+id/txtcontraseña"
         android:textSize="25dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Contraseña"
-        android:textColorHint="@color/text_black"/>
+        android:hint="Contraseña" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <ProgressBar
         android:id="@+id/progressBar2"

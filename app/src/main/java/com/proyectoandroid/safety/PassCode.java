@@ -25,7 +25,7 @@ public class PassCode extends AppCompatActivity {
             }
             @Override
             public void onSuccess(String number) {
-                Intent intent = new Intent(PassCode.this, IniciarRuta.class);
+                Intent intent = new Intent(PassCode.this, MapsActivity.class);
                 startActivity(intent);
             }
         });
