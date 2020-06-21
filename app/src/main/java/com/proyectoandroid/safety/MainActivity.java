@@ -1,7 +1,9 @@
 package com.proyectoandroid.safety;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Intent;
@@ -9,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -28,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnregistro.setOnClickListener(this);
         btnsesion.setOnClickListener(this);
         this.pedirPermisoUbicacion();
+        this.pedirPermisoMensaje();
     }
 
     //Metodo para pedir permiso de la ubicaciond el GPS
@@ -45,7 +49,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    public void pedirPermisoMensaje() {
+        int permisocheck = ContextCompat.checkSelfPermission(this,Manifest.permission.SEND_SMS);
 
+        if(permisocheck==PackageManager.PERMISSION_GRANTED){
+
+        }else{
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.SEND_SMS},0);
+        }
+
+
+
+
+    }
 
     @Override
     public void onClick(View v) {
@@ -63,5 +79,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(this.getApplicationContext(),IniciarSesion.class);
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode){
+            case 0:
+                if(grantResults.length>=0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+
+                }else{
+                    Toast.makeText(getApplicationContext(),"No tienes el permiso de SMS",Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+
     }
 }

@@ -1,6 +1,7 @@
 package com.proyectoandroid.safety;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -40,6 +41,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LocationListener,BottomNavigationView.OnNavigationItemSelectedListener,View.OnClickListener{
 
     private int permisoubicacion;
+    private int tiempo = 0;
 
     private BottomNavigationView navigationview;
     private GoogleMap mMap;
@@ -52,7 +54,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private double lat = 0.0;
     private double lng = 0.0;
 
-    Polyline currentPolyline;
+
     private MarkerOptions place1, place2;
 
 
@@ -78,6 +80,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private int mili= 0, seg = 0, minutos = 0, horas = 0;
     private boolean isOn = false;
 
+    //GPS
+    private boolean posicion = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +98,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         btnpausar = (Button)findViewById(R.id.btnpausar);
         btncomenzar = (Button)findViewById(R.id.btncomenzar);
         btnparar = (Button)findViewById(R.id.btnparar);
+        crono = (TextView)findViewById(R.id.txtcronometro);
 
         //Asignacion de eventos a los botones
         btnpanico.setOnClickListener(this);
@@ -109,9 +115,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Se bloquean los botones al iniciar la actividad
         btnpausar.setEnabled(false);
         btnparar.setEnabled(false);
-
-        crono = (TextView)findViewById(R.id.txtcronometro);
-
         cronos = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -266,9 +269,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onLocationChanged(Location location) {
         marcador.remove();
         actualizarUbicacion(location);
-
-
-
+        posicion = true;
+        Toast.makeText(getApplicationContext(),"Cambio de lugar",Toast.LENGTH_LONG).show();
         /*LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         Toast.makeText(getApplicationContext(),"Latitud: " + location.getLatitude(), Toast.LENGTH_LONG).show();
 
@@ -280,19 +282,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {
 
-
+        Toast.makeText(getApplicationContext(),"Estado cambiado",Toast.LENGTH_LONG).show();
 
 
     }
 
     @Override
     public void onProviderEnabled(String s) {
-
+        Toast.makeText(getApplicationContext(),"Provedor activado",Toast.LENGTH_LONG).show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("GPS");
+        builder.setMessage("Ubicacion activada, vuelve a iniciar la app");
+        builder.setPositiveButton("Aceptar", null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
     public void onProviderDisabled(String s) {
-
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("GPS");
+        builder.setMessage("Activa la ubicacion");
+        builder.setPositiveButton("Aceptar", null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     //metodo para las opciones de la BottomNavigationView
@@ -308,7 +321,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         if(item.getItemId() == R.id.nav_estadisticas){
-            Intent intent = new Intent(this.getApplicationContext(),MainActivity.class);
+            Intent intent = new Intent(this.getApplicationContext(),Estadistica.class);
             startActivity(intent);
         }
 
@@ -366,7 +379,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Toast.makeText(getApplicationContext(),"Seguimiento habilitado",Toast.LENGTH_LONG).show();
                 btnpausar.setEnabled(true);
                 btnparar.setEnabled(true);
+                btncomenzar.setText("Seguir");
                 isOn=true;
+                break;
+            case R.id.btnparar:
+                Toast.makeText(getApplicationContext(),"Trayecto finalizado",Toast.LENGTH_LONG).show();
+
+                crono.setText("00:00:00");
+                mili= 0;
+                seg = 0;
+                minutos = 0;
+                horas = 0;
+                btncomenzar.setEnabled(true);
+                btncomenzar.setText("Comenzar");
+                isOn=false;
+
                 break;
         }
     }

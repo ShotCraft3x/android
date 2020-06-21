@@ -14,10 +14,10 @@ public class Estadistica extends AppCompatActivity {
     ListView lista;
     //almacena los datos de los lugares
     String[][] datos={
-            {"Fecha:20-05.2020" , "Distancia recorrida:40km" ,"Caloria:40c", "Pasos:3000" },
-            {"Fecha:20-05.2020" , "Distancia recorrida:40km" ,"Caloria:40c", "Pasos:3000" },
-            {"Fecha:20-05.2020" , "Distancia recorrida:40km" ,"Caloria:40c", "Pasos:3000" },
-            {"Fecha:20-05.2020" , "Distancia recorrida:40km" ,"Caloria:40c", "Pasos:3000" },
+            {"Fecha:20-05.2020" , "Distancia recorrida:40km" ,"40", "Pasos:3000" },
+            {"Fecha:20-05.2020" , "Distancia recorrida:40km" ,"40", "Pasos:3000" },
+            {"Fecha:20-05.2020" , "Distancia recorrida:40km" ,"40", "Pasos:3000" },
+            {"Fecha:20-05.2020" , "Distancia recorrida:40km" ,"40", "Pasos:3000" },
 
     };
     //Obtener  las imagenes de la carpeta drawable
