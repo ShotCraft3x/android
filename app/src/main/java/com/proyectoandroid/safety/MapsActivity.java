@@ -209,13 +209,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(lat,lng)).zoom(14).bearing(80).build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
-
-
-        Toast.makeText(getApplicationContext(),"LLego aquiiii 333",Toast.LENGTH_LONG).show();
-
-
-
-
     }
 
 
@@ -395,6 +388,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 isOn=false;
 
                 break;
+
+            case R.id.btnpanico:
+                Mensaje ms = new Mensaje(this);
+                String mensaje = "https://maps.google.com/?q="+lat+","+lng;
+                ms.enviarMensaje("Tu usuario de confianza necesita ayuda: " + mensaje);
+                break;
+
         }
     }
 }

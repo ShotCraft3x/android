@@ -10,7 +10,6 @@
     android:padding="30dp">
 
     <TextView
-        android:layout_marginTop="100dp"
 
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
@@ -18,26 +17,38 @@
         android:text="Configuración"
         android:textColor="#000"
         android:textSize="30dp" />
-
-    <EditText
-        android:layout_marginTop="40dp"
-        android:id="@+id/txtpin"
-        android:textColor="#000"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/username_text_input_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="20"
-        android:inputType="textPersonName"
-        android:text="PIN" />
+        android:layout_height="wrap_content">
 
-    <EditText
-        android:layout_marginTop="40dp"
-        android:id="@+id/txttiempo"
-        android:textColor="#000"
+        <EditText
+            android:layout_marginTop="40dp"
+            android:id="@+id/txtpin"
+            android:textColorHint="#000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="20"
+            android:inputType="textPersonName"
+            android:hint="PIN" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/password_text_input_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="20"
-        android:inputType="textPersonName"
-        android:text="Tiempo de notificacion" />
+        android:layout_height="wrap_content">
+        <EditText
+            android:layout_marginTop="20dp"
+            android:id="@+id/txttiempo"
+            android:textColor="#000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="20"
+            android:inputType="number"
+            android:hint="Tiempo de notificacion" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -47,27 +58,43 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:text="Añadir contacto favorito"
             android:textColor="#000"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:layout_marginRight="40dp"/>
 
-        <Button
-            android:layout_marginTop="50dp"
-            android:textColor="#000"
-            android:textSize="25dp"
-            android:background="#F8C53F"
+        <ImageButton
+            android:layout_marginTop="17dp"
+            android:src="@drawable/ic_person_add_black_24dp"
             android:id="@+id/btnagregar"
+            android:background="#ffff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+" />
+             />
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ListView
+        android:id="@+id/listacontactos"
+        android:layout_marginTop="20dp"
+        android:padding="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="188dp"
+        android:divider="#000"
+        android:dividerHeight="4px"
+        android:background="#ffff" />
 
     <Button
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:textColor="#000"
         android:background="#F8C53F"
         android:id="@+id/btnregistrar"
@@ -76,13 +103,13 @@
         android:text="Guardar" />
 
     <Button
-        android:layout_marginTop="50dp"
-        android:textColor="#000"
-        android:background="#F8C53F"
         android:id="@+id/btncerrarsesion"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Cerrar sesion" />
+        android:layout_height="54dp"
+        android:layout_marginTop="20dp"
+        android:background="#F8C53F"
+        android:text="Cerrar sesion"
+        android:textColor="#000" />
 
 
 </LinearLayout>
