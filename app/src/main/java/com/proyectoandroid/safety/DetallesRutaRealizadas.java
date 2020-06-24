@@ -1,13 +1,25 @@
 package com.proyectoandroid.safety;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -45,14 +57,32 @@ public class DetallesRutaRealizadas extends AppCompatActivity implements View.On
         }
     }
 
+    public void startCronometro(){
+        Intent intentService = new Intent(this,miServicioNotificacion.class);
+        miServicioNotificacion.isOn = true;
+        miServicioNotificacion.corriendo = true;
+
+
+        Toast.makeText(getApplicationContext(),"Tiempo iniciado",Toast.LENGTH_SHORT).show();
+        startService(intentService);
+
+
+    }
+
     @Override
     public void onClick(View view) {
         if(view.getId()==R.id.btntomaruta){
-            LatLng p1 = new LatLng(lat,lng);
+            startCronometro();
 
+            LatLng p1 = new LatLng(lat,lng);
             String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?q=loc:%f,%f", p1.latitude,p1.longitude);
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
             startActivity(intent);
+
+
+
         }
     }
+
+
 }

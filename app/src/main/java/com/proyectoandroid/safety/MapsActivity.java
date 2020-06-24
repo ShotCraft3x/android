@@ -1,19 +1,27 @@
 package com.proyectoandroid.safety;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
@@ -54,7 +62,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private double lat = 0.0;
     private double lng = 0.0;
 
-
     private MarkerOptions place1, place2;
 
 
@@ -73,12 +80,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private boolean seBloqueoPantalla;
     private boolean cambioAplicacion;
 
-    //Componentes para el cronometro
-    private Handler h = new Handler();
-    private Thread cronos;
     private TextView crono;
-    private int mili= 0, seg = 0, minutos = 0, horas = 0;
-    private boolean isOn = false;
+    static int seg = 0, minutos = 0, horas = 0;
+
+
+    static boolean isOn = true;
+    boolean corriendo = false;
 
     //GPS
     private boolean posicion = false;
@@ -105,66 +112,73 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         btnpausar.setOnClickListener(this);
         btncomenzar.setOnClickListener(this);
         btnparar.setOnClickListener(this);
-        setCronometro();
+
+        crono.setText("00:00:00");
+
+
+
+        //Esta parte es para recibir el cronometro en caso de que se inicie una ruta con google map
+        miServicioNotificacion.isOn = false;
+        IntentFilter intentFilter = new IntentFilter();
+
+        intentFilter.addAction("Counter");
+        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                if(miServicioNotificacion.isOn==false){
+                    //Aqui se para la notificacion
+                    NotificationManager manager = getSystemService(NotificationManager.class);
+                    manager.deleteNotificationChannel(miServicioNotificacion.CHANNEL_ID);
+                }
+
+                int s = intent.getIntExtra("seg",0);
+                int m = intent.getIntExtra("min",0);
+                int h = intent.getIntExtra("horas",0);
+                s = s -1;
+                String textSeg = "", textMin = "", textHora="";
+
+                if(s<10){
+                    textSeg="0"+s;
+
+                }else{
+                    textSeg= ""+s;
+                }
+
+                if(m<10){
+                    textMin="0"+m;
+
+                }else{
+                    textMin= ""+m;
+                }
+
+                if(h<10){
+                    textHora="0"+h;
+
+                }else{
+                    textHora= ""+h;
+                }
+
+
+                String reloj = textHora+":"+textMin+":"+textSeg;
+                crono.setText(reloj);
+
+            }
+        };
+
+        registerReceiver(broadcastReceiver,intentFilter);
+
+        //setCronometro();
 
     }
 
-    public void setCronometro(){
+    public void iniciarCronometro(){
+        if(isOn==true){
+            CronometroMapa miCronometro = new CronometroMapa(crono);
+            miCronometro.start();
 
-
-        //Se bloquean los botones al iniciar la actividad
-        btnpausar.setEnabled(false);
-        btnparar.setEnabled(false);
-        cronos = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true){
-                    if(isOn){
-                        try {
-                            Thread.sleep(1);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        mili++;
-                        if(mili==999){
-                            seg++;
-                            mili=0;
-                        }
-                        if(seg == 59){
-                            minutos ++;
-                            seg=0;
-
-                        }
-
-                        if(minutos == 59){
-                            horas ++;
-                            minutos=0;
-                        }
-                        h.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                String s="",mi="",hr="00";
-
-
-                                if(seg<10){
-                                    s="0"+seg;
-                                }else{
-                                    s=""+seg;
-                                }
-                                if(minutos<10){
-                                    mi="0"+minutos;
-                                }else{
-                                    mi=""+minutos;
-                                }
-                                crono.setText(hr+":"+mi+":"+s);
-
-                            }
-                        });
-                    }
-                }
-            }
-        });
-        cronos.start();
+        }
     }
 
     //Metodo para setear los  marcadores en el mapa
@@ -367,26 +381,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         switch (view.getId()){
             case R.id.btnpausar:
                 isOn=false;
+                corriendo = false;
                 break;
             case R.id.btncomenzar:
-                Toast.makeText(getApplicationContext(),"Seguimiento habilitado",Toast.LENGTH_LONG).show();
-                btnpausar.setEnabled(true);
-                btnparar.setEnabled(true);
-                btncomenzar.setText("Seguir");
-                isOn=true;
-                break;
+                if(corriendo==false) {
+                    Toast.makeText(getApplicationContext(), "Seguimiento habilitado", Toast.LENGTH_LONG).show();
+                    isOn = true;
+                    corriendo = true;
+                    iniciarCronometro();
+                    btnpausar.setEnabled(true);
+                    btnparar.setEnabled(true);
+                    btncomenzar.setText("Seguir");
+                    break;
+                }
             case R.id.btnparar:
                 Toast.makeText(getApplicationContext(),"Trayecto finalizado",Toast.LENGTH_LONG).show();
-
-                crono.setText("00:00:00");
-                mili= 0;
-                seg = 0;
-                minutos = 0;
-                horas = 0;
                 btncomenzar.setEnabled(true);
                 btncomenzar.setText("Comenzar");
                 isOn=false;
-
+                corriendo = false;
+                seg = 0;
+                minutos =0;
+                horas = 0;
+                crono.setText("00:00:00");
                 break;
 
             case R.id.btnpanico:

@@ -13,12 +13,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import static android.Manifest.permission.FOREGROUND_SERVICE;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private Button btnomitir;
     private Button btnregistro;
     private Button btnsesion;
     private int MY_PERMISSIONS_REQUEST_READ_CONTACTS;
+    private int MY_PERMISSIONS_REQUEST_SERVICE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnsesion.setOnClickListener(this);
         this.pedirPermisoUbicacion();
         this.pedirPermisoMensaje();
+        this.pedirPermisoServicio();
     }
 
     //Metodo para pedir permiso de la ubicaciond el GPS
@@ -42,6 +46,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ActivityCompat.requestPermissions(MainActivity.this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+
+            return;
+        }
+
+
+    }
+
+    //Metodo para pedir permiso de la ubicaciond el GPS
+    public void pedirPermisoServicio() {
+
+
+        if (ActivityCompat.checkSelfPermission(this, FOREGROUND_SERVICE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{FOREGROUND_SERVICE},
+                    MY_PERMISSIONS_REQUEST_SERVICE);
 
             return;
         }
