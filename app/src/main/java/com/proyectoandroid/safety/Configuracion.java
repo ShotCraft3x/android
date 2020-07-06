@@ -68,6 +68,7 @@ public class Configuracion extends AppCompatActivity implements View.OnClickList
         if(size == 0){
             mlista.add(new Contactos("",""));
         }else{
+            mlista.clear();
             for(int i = 0; i<miscontactos.size();i++) {
                 mlista.add(new Contactos(miscontactos.get(i).getNombre(),miscontactos.get(i).getNumero()));
             }
@@ -102,6 +103,7 @@ public class Configuracion extends AppCompatActivity implements View.OnClickList
             ContactDB contact = new ContactDB(this);
             //Aqui se hace el registro de los contactos en la SQLITE
             contact.registrarDatos(nombreContacto,numeroContacto);
+            this.llenarLista();
         }
 
 
@@ -153,7 +155,7 @@ public class Configuracion extends AppCompatActivity implements View.OnClickList
 
     public void logout (View view){
         FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+        Intent intent = new Intent(getApplicationContext(),loginActivity.class);
         startActivity(intent);
         finish();
     }

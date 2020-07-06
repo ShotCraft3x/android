@@ -27,7 +27,7 @@ public class RutasRealizadas extends AppCompatActivity {
             { "","Horario:17:00-15:10" ,"Original Bike","-29.9329333","-71.2603048" },
     };
     //Obtiene  las imagenes de la carpeta drawable
-    int[] datosImg={R.drawable.ic_close};
+    int[] datosImg={R.drawable.thorobike,R.drawable.ciclesaquea,R.drawable.ciclesserena,R.drawable.originalbike};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
