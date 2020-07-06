@@ -4,4 +4,24 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="title_onboarding_1">Reto de Kilometro</string>
+    <string name="description_onboarding_1">¡Es hora de subirse a la bici!¿Tu mision? Completar 200 km con actividades de ciclismo </string>
+
+    <string name="title_onboarding_2">Beneficio</string>
+    <string name="description_onboarding_2">El uso de la bicicleta fortalece a la persona física y mentalmente,El pedaleo quema calorías y es beneficioso para el corazón,Aumenta nuestro sistema inmunológico y nos protegemos mejor de enfermedades.</string>
+
+    <string name="title_onboarding_3">Seguridad</string>
+    <string name="description_onboarding_3">Siempre use un casco,Use ropa y equipo brillante y protector,Siga las normas de tráfico,Esté consciente de sus alrededores.</string>
+
+
+    <string name="start">start</string>
+    <string name="skip">Salir</string>
+    <string name="finish">Aceptar Reto</string>
+    <string name="next">Siguiente</string>
+    <string name="back">back</string>
+
+
+    <string name="hint_minute">Minutos</string>
+    <string name="message_minutes"></string>
 </resources>

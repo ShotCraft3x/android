@@ -18,6 +18,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
+import com.proyectoandroid.safety.R;
+
 public class miServicioNotificacion extends Service {
 
 

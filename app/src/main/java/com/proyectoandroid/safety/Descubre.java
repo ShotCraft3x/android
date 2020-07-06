@@ -1,49 +1,82 @@
 package com.proyectoandroid.safety;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.proyectoandroid.adapters.DescubreAdapter;
+import com.proyectoandroid.fragments.DescubreFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Descubre extends AppCompatActivity {
 
-    //Matriz
-    ListView lista;
-    //almacena los datos de los lugares
-    String[][] datos={
-            { "Faro Monumental de La Serena" , "Dirección: Avda. Fco de Aguirre, La Serena, Coquimbo" ,"8", "El Faro Monumental de La Serena es un faro chileno ubicado en la Avenida del Mar de la ciudad de La Serena. La estructura se caracteriza por ser el símbolo de reconocimiento público de la ciudad, siendo uno de los lugares turísticos más representativos y concurridos de la zona." },
-            { "Cruz del Tercer Milenio" , "Dirección: Tte Merino 32, Coquimbo" ,"9","La Cruz del Tercer Milenio es un monumento conmemorativo religioso ubicado en el cerro El Vigía de Coquimbo, Chile. Fue construido con el motivo del jubileo del año 2000 de la Iglesia católica. Su construcción fue iniciada en 1999 y terminada en 2001. Posee 83 metros de altura, 40 m de ancho y se encuentra a 210 msnm." } ,
-            { "Museo Arqueológico de La Serena" , "Dirección: Cordovéz esquina, Cienfuegos, La Serena, Coquimbo","4", "El Museo Arqueológico de La Serena es un museo ubicado en el centro de la ciudad de La Serena, capital de la Región de Coquimbo. Fue creado el 3 de abril de 1943. Cinco años después fue transferido a la Dirección de Bibliotecas, Archivos y Museos." },
-            { "Domo Cultura Ánimas", "Dirección: Aldunate S/N, Coquimbo","7", "El Domo Cultura Ánimas es un museo de sitio ubicado en la ciudad chilena de Coquimbo. Debe su nombre a la cultura Ánimas, precursora de la cultura diaguita que habitó el norte chico de Chile entre 900 y 1200 d.C., y de la cual se encontraron restos durante unas excavaciones en el sector." },
+    RecyclerView mList1,mList2;
+    private Button button;
+    private Button button2;
+    List<DescubreFragment> appList ;
+    List<DescubreFragment> appList2;
 
-
-    };
-    //Obtener  las imagenes de la carpeta drawable
-    int[] datosImg={R.drawable.faro,R.drawable.cruz,R.drawable.museo,R.drawable.domo};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_descubrir);
-        //instanciar la lista
-        lista=(ListView) findViewById(R.id.lvLista);
+        setContentView(R.layout.activity_descubre);
 
-        lista.setAdapter(new Adaptador(this,datos,datosImg));
+        button = (Button)findViewById(R.id.button);
+        button2 = (Button)findViewById(R.id.button2);
 
-        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent visorDetalle=new Intent(view.getContext(),DetallesLugar.class);
-                visorDetalle.putExtra("TIT",datos[position][0]);
-                visorDetalle.putExtra("DES",datos[position][3]);
+        mList1 = findViewById(R.id.list1);
+        mList2 = findViewById(R.id.list2);
+        appList = new ArrayList<>();
 
+        appList.add(new DescubreFragment(R.drawable.objreto,"Reto kilometro","(Completa 3 kilometro en..)"));
+        appList.add(new DescubreFragment(R.drawable.objreto,"Reto de Tiempo","(Compleeta 1 hrs en..)"));
+        appList.add(new DescubreFragment(R.drawable.objreto,"Reto velocidad","(Midiendo la tiempo de ...)"));
+        appList.add(new DescubreFragment(R.drawable.objreto,"Reto nose","(nose que colocar..)"));
+        appList.add(new DescubreFragment(R.drawable.objreto,"Reto de altura","(saltar en la cama)"));
+        appList.add(new DescubreFragment(R.drawable.objreto,"Reto de ejercicio","(Dormir)"));
 
+        appList2 = new ArrayList<>();
 
+        appList2.add(new DescubreFragment(R.drawable.plazamujer1,"Plaza de la mujer",""));
+        appList2.add(new DescubreFragment(R.drawable.plaza,"Plaza del tofo",""));
+        appList2.add(new DescubreFragment(R.drawable.plaza,"Plaza a dormir",""));
+        appList2.add(new DescubreFragment(R.drawable.plaza,"Plaza X",""));
+        appList2.add(new DescubreFragment(R.drawable.plaza,"Plaza 1",""));
+        appList2.add(new DescubreFragment(R.drawable.plaza,"Plaza 2",""));
 
-                startActivity(visorDetalle);
-            }
-        });
+        LinearLayoutManager manager1 = new LinearLayoutManager(this);
+        manager1.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mList1.setLayoutManager(manager1);
+
+        LinearLayoutManager manager2 = new LinearLayoutManager(this);
+        manager2.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mList2.setLayoutManager(manager2);
+
+        DescubreAdapter adaptor1 = new DescubreAdapter(this,appList);
+        mList1.setAdapter(adaptor1);
+
+        DescubreAdapter adaptor2 = new DescubreAdapter(this,appList2);
+        mList2.setAdapter(adaptor2);
     }
+    public void onClick(View v) {
+        if(v.getId() == R.id.button){
+            Intent intent = new Intent(this.getApplicationContext(), DetalleReto.class);
+            startActivity(intent);
+        }
+
+        if(v.getId() == R.id.button2){
+            Intent intent = new Intent(this.getApplicationContext(), PlazaDetalle.class);
+            startActivity(intent);
+        }
+
+        }
+
+
 }

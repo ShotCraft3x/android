@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.proyectoandroid.safety.R;
+
 public class PermisoUbicacion extends AppCompatActivity {
 
     @Override

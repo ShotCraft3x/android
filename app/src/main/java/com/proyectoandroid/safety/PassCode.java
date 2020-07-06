@@ -9,6 +9,7 @@ import android.widget.Toast;
 import android.os.Bundle;
 
 import com.hanks.passcodeview.PasscodeView;
+import com.proyectoandroid.safety.R;
 
 public class PassCode extends AppCompatActivity {
 

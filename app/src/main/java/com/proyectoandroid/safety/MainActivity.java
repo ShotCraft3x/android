@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.proyectoandroid.safety.R;
+
 import static android.Manifest.permission.FOREGROUND_SERVICE;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{

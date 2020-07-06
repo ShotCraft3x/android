@@ -43,6 +43,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import org.json.JSONObject;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
@@ -319,7 +320,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.nav_descubre){
-            Intent intent = new Intent(this.getApplicationContext(),Descubre.class);
+            Intent intent = new Intent(this.getApplicationContext(), Descubre.class);
             startActivity(intent);
         }
         if(item.getItemId() == R.id.nav_config){
@@ -328,14 +329,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         if(item.getItemId() == R.id.nav_estadisticas){
-            Intent intent = new Intent(this.getApplicationContext(),Estadistica.class);
-            startActivity(intent);
+            //Intent intent = new Intent(this.getApplicationContext(),Estadistica.class);
+            //startActivity(intent);
         }
 
         if(item.getItemId() == R.id.nav_rutasrealizadas){
-            Intent visorDetalle=new Intent(this.getApplicationContext(), RutasRealizadas.class);
+            //Intent visorDetalle=new Intent(this.getApplicationContext(), RutasRealizadas.class);
 
-            startActivity(visorDetalle);
+            //startActivity(visorDetalle);
 
         }
 
