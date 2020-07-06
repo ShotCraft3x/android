@@ -3,8 +3,12 @@ package com.proyectoandroid.safety;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -79,6 +83,8 @@ public class Configuracion extends AppCompatActivity implements View.OnClickList
         }
 
         if(view.getId()==R.id.btnagregar){
+            pedirPermisoMensaje();
+
             if(size<3){
                 Toast.makeText(getApplicationContext(),"Agregaras un contacto",Toast.LENGTH_SHORT).show();
                 seleccionarContacto();
@@ -108,8 +114,16 @@ public class Configuracion extends AppCompatActivity implements View.OnClickList
         seleccionaContacto.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE); //se hace la seleccion del tipo contacto
         startActivityForResult(seleccionaContacto,FLAG_CONTACT);
 
+    }
 
+    public void pedirPermisoMensaje() {
+        int permisocheck = ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS);
 
+        if(permisocheck== PackageManager.PERMISSION_GRANTED){
+
+        }else{
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.SEND_SMS},0);
+        }
     }
 
     @Override

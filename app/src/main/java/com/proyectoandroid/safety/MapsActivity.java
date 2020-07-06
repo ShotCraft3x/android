@@ -14,6 +14,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -43,11 +44,15 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 
 import org.json.JSONObject;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
-        LocationListener,BottomNavigationView.OnNavigationItemSelectedListener,View.OnClickListener{
+        LocationListener, BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private int permisoubicacion;
     private int tiempo = 0;
@@ -91,6 +96,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     //GPS
     private boolean posicion = false;
 
+
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,14 +109,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        navigationview = (BottomNavigationView)findViewById(R.id.bottomNavigationView);
+        navigationview = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
         navigationview.setOnNavigationItemSelectedListener(this);
 
-        btnpanico = (Button)findViewById(R.id.btnpanico);
-        btnpausar = (Button)findViewById(R.id.btnpausar);
-        btncomenzar = (Button)findViewById(R.id.btncomenzar);
-        btnparar = (Button)findViewById(R.id.btnparar);
-        crono = (TextView)findViewById(R.id.txtcronometro);
+        //Referencia para el inicio de sesion
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        btnpanico = (Button) findViewById(R.id.btnpanico);
+        btnpausar = (Button) findViewById(R.id.btnpausar);
+        btncomenzar = (Button) findViewById(R.id.btncomenzar);
+        btnparar = (Button) findViewById(R.id.btnparar);
+        crono = (TextView) findViewById(R.id.txtcronometro);
 
         //Asignacion de eventos a los botones
         btnpanico.setOnClickListener(this);
@@ -115,7 +129,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         btnparar.setOnClickListener(this);
 
         crono.setText("00:00:00");
-
 
 
         //Esta parte es para recibir el cronometro en caso de que se inicie una ruta con google map
@@ -128,54 +141,55 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onReceive(Context context, Intent intent) {
 
-                if(miServicioNotificacion.isOn==false){
+                if (miServicioNotificacion.isOn == false) {
                     //Aqui se para la notificacion
                     NotificationManager manager = getSystemService(NotificationManager.class);
                     manager.deleteNotificationChannel(miServicioNotificacion.CHANNEL_ID);
                 }
 
-                int s = intent.getIntExtra("seg",0);
-                int m = intent.getIntExtra("min",0);
-                int h = intent.getIntExtra("horas",0);
-                s = s -1;
-                String textSeg = "", textMin = "", textHora="";
+                int s = intent.getIntExtra("seg", 0);
+                int m = intent.getIntExtra("min", 0);
+                int h = intent.getIntExtra("horas", 0);
+                s = s - 1;
+                String textSeg = "", textMin = "", textHora = "";
 
-                if(s<10){
-                    textSeg="0"+s;
+                if (s < 10) {
+                    textSeg = "0" + s;
 
-                }else{
-                    textSeg= ""+s;
+                } else {
+                    textSeg = "" + s;
                 }
 
-                if(m<10){
-                    textMin="0"+m;
+                if (m < 10) {
+                    textMin = "0" + m;
 
-                }else{
-                    textMin= ""+m;
+                } else {
+                    textMin = "" + m;
                 }
 
-                if(h<10){
-                    textHora="0"+h;
+                if (h < 10) {
+                    textHora = "0" + h;
 
-                }else{
-                    textHora= ""+h;
+                } else {
+                    textHora = "" + h;
                 }
 
 
-                String reloj = textHora+":"+textMin+":"+textSeg;
+                String reloj = textHora + ":" + textMin + ":" + textSeg;
                 crono.setText(reloj);
 
             }
         };
 
-        registerReceiver(broadcastReceiver,intentFilter);
+        registerReceiver(broadcastReceiver, intentFilter);
 
         //setCronometro();
 
     }
 
-    public void iniciarCronometro(){
-        if(isOn==true){
+
+    public void iniciarCronometro() {
+        if (isOn == true) {
             CronometroMapa miCronometro = new CronometroMapa(crono);
             miCronometro.start();
 
@@ -183,24 +197,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     //Metodo para setear los  marcadores en el mapa
-    public void Marcadores(GoogleMap map){
+    public void Marcadores(GoogleMap map) {
         mMap = map;
-        LatLng p1 = new LatLng(-29.922705,-71.2726555);
+        LatLng p1 = new LatLng(-29.922705, -71.2726555);
         mMap.addMarker(new MarkerOptions().position(p1).title("Bicimania Elite Store").
                 icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
 
-        LatLng p2 = new LatLng(-29.915983,-71.2678595);
+        LatLng p2 = new LatLng(-29.915983, -71.2678595);
         mMap.addMarker(new MarkerOptions().position(p2).title("Thoros Bikes").
                 icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
 
-        LatLng p3 = new LatLng(-29.8905845,-71.2474624);
+        LatLng p3 = new LatLng(-29.8905845, -71.2474624);
         mMap.addMarker(new MarkerOptions().position(p3).title("Cycles Serena").
                 icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-
-
-
 
 
         mMap.addMarker(new MarkerOptions().position(p1).title("Bicimania Elite Store\"").
@@ -221,11 +232,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .position(coordenadas)
                 .title("Mi posicion actualll"));
 
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(lat,lng)).zoom(14).bearing(80).build();
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(lat, lng)).zoom(14).bearing(80).build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
     }
-
 
 
     public void actualizarUbicacion(Location location) {
@@ -251,7 +261,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Locacion GPS o NETWORK
         Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         actualizarUbicacion(location);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,15000,0,this);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 15000, 0, this);
 
     }
 
@@ -259,14 +269,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-
         //Toast.makeText(getApplicationContext(),"Entro 2",Toast.LENGTH_LONG).show();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(true);
         miUbicacion();
 
         this.Marcadores(googleMap);
+
 
 
     }
@@ -324,19 +337,41 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             startActivity(intent);
         }
         if(item.getItemId() == R.id.nav_config){
-            Intent intent = new Intent(this.getApplicationContext(),Configuracion.class);
-            startActivity(intent);
+            if(mAuth.getCurrentUser()!=null) {
+                Intent intent = new Intent(this.getApplicationContext(), Configuracion.class);
+                startActivity(intent);
+            }else{
+                MensajeSesion();
+            }
         }
 
         if(item.getItemId() == R.id.nav_estadisticas){
-            //Intent intent = new Intent(this.getApplicationContext(),Estadistica.class);
-            //startActivity(intent);
+            if(mAuth.getCurrentUser()!=null) {
+               Intent intentestatistica = new Intent(this.getApplicationContext(), Estadistica.class);
+               startActivity(intentestatistica);
+            }else{
+                MensajeSesion();
+            }
         }
 
         if(item.getItemId() == R.id.nav_rutasrealizadas){
-            //Intent visorDetalle=new Intent(this.getApplicationContext(), RutasRealizadas.class);
+            if(mAuth.getCurrentUser()!=null) {
+                Intent visorRutas = new Intent(this.getApplicationContext(), RutasRealizadas.class);
+                startActivity(visorRutas);
+            }else{
+                this.MensajeSesion();
+            }
 
-            //startActivity(visorDetalle);
+        }
+
+        if(item.getItemId() == R.id.nav_fotos){
+            if(mAuth.getCurrentUser()!=null) {
+                Intent visorFotos = new Intent(this.getApplicationContext(), FotosActivity.class);
+
+                startActivity(visorFotos);
+            }else{
+                this.MensajeSesion();
+            }
 
         }
 
@@ -375,43 +410,83 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onResume();
     }
 
+    public void MensajeSesion () {
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Sesion");
+        builder.setMessage("Debes iniciar sesion para usar esta opción");
+
+        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int id) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 
     //Metodos para la captura de los eventos del boton
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btnpausar:
-                isOn=false;
-                corriendo = false;
-                break;
-            case R.id.btncomenzar:
-                if(corriendo==false) {
-                    Toast.makeText(getApplicationContext(), "Seguimiento habilitado", Toast.LENGTH_LONG).show();
-                    isOn = true;
-                    corriendo = true;
-                    iniciarCronometro();
-                    btnpausar.setEnabled(true);
-                    btnparar.setEnabled(true);
-                    btncomenzar.setText("Seguir");
+                if(mAuth.getCurrentUser()!=null) {
+                    isOn = false;
+                    corriendo = false;
+                    break;
+                }else{
+                    MensajeSesion();
                     break;
                 }
+            case R.id.btncomenzar:
+                if(corriendo==false) {
+                    if(mAuth.getCurrentUser()!=null) {
+                        isOn = true;
+                        corriendo = true;
+                        iniciarCronometro();
+                        btnpausar.setEnabled(true);
+                        btnparar.setEnabled(true);
+                        btncomenzar.setText("Seguir");
+                        Toast.makeText(getApplicationContext(), "Seguimiento habilitado", Toast.LENGTH_LONG).show();
+                        break;
+                    }else{
+                        MensajeSesion();
+                        break;
+                    }
+                }
             case R.id.btnparar:
-                Toast.makeText(getApplicationContext(),"Trayecto finalizado",Toast.LENGTH_LONG).show();
-                btncomenzar.setEnabled(true);
-                btncomenzar.setText("Comenzar");
-                isOn=false;
-                corriendo = false;
-                seg = 0;
-                minutos =0;
-                horas = 0;
-                crono.setText("00:00:00");
-                break;
+                if(mAuth.getCurrentUser()!=null) {
+                    Toast.makeText(getApplicationContext(), "Trayecto finalizado", Toast.LENGTH_LONG).show();
+                    btncomenzar.setEnabled(true);
+                    btncomenzar.setText("Comenzar");
+                    isOn = false;
+                    corriendo = false;
+                    seg = 0;
+                    minutos = 0;
+                    horas = 0;
+                    crono.setText("00:00:00");
+                    Intent myIntent = new Intent(this, PublicarFoto.class);
+                    startActivity(myIntent);
+
+                    break;
+                }else{
+                    MensajeSesion();
+                    break;
+                }
 
             case R.id.btnpanico:
-                Mensaje ms = new Mensaje(this);
-                String mensaje = "https://maps.google.com/?q="+lat+","+lng;
-                ms.enviarMensaje("Tu usuario de confianza necesita ayuda: " + mensaje);
-                break;
+                if(mAuth.getCurrentUser()!=null) {
+                    Mensaje ms = new Mensaje(this);
+                    String mensaje = "https://maps.google.com/?q=" + lat + "," + lng;
+                    ms.enviarMensaje("Tu usuario de confianza necesita ayuda: " + mensaje);
+                    break;
+                }else{
+                    MensajeSesion();
+                    break;
+                }
 
         }
     }

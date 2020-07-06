@@ -79,32 +79,16 @@ public class miServicioNotificacion extends Service {
         }catch (Exception ex){
             ex.printStackTrace();
         }
-        /*
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(),CHANNEL_ID);
-        builder.setSmallIcon(R.drawable.ic_directions_run_black_24dp);
-        builder.setContentTitle("Ruta iniciada");
-        builder.setContentText("Acabas de iniciar una ruta: " + tiempo);
-        builder.setColor(Color.BLUE);
-        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT); //Prioridad de notificacion
-        builder.setLights(Color.MAGENTA,1000,1000); //Luz
-        builder.setVibrate(new long[]{1000,1000,1000,1000,1000}); //Vibracion
-        builder.setDefaults(Notification.DEFAULT_SOUND); //Sonido
-        builder.setUsesChronometer(true);
-        builder.setContentIntent(mapsIntent);
-        builder.addAction(R.drawable.ic_parar,"Parar",mapsIntent);
-        builder.addAction(R.drawable.ic_parar,"Panico",mapsIntent);
-        builder.addAction(R.drawable.ic_parar,"Pausar",mapsIntent);
-
-        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
-        notificationManagerCompat.notify(NOTIFICACION_ID,builder.build());
-*/
     }
 
-    //Inicio de cronometro
-    private void ejecutarHiloCronometro() {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        seg = 0;
+        minutos = 0;
+        horas = 0;
         Thread thread = new Thread(){
-            @RequiresApi(api = Build.VERSION_CODES.O)
             public void run() {
                 while (isOn) {
                     Intent intentlocal = new Intent();
@@ -159,18 +143,6 @@ public class miServicioNotificacion extends Service {
 
         };
         thread.start();
-
-
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        seg = 0;
-        minutos = 0;
-        horas = 0;
-
-        ejecutarHiloCronometro();
 
         return super.onStartCommand(intent, flags, startId);
     }

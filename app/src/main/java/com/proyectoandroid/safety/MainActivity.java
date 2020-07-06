@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnregistro.setOnClickListener(this);
         btnsesion.setOnClickListener(this);
         this.pedirPermisoUbicacion();
-        this.pedirPermisoMensaje();
+        //this.pedirPermisoMensaje();
         this.pedirPermisoServicio();
     }
 
@@ -61,20 +61,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             return;
         }
-
-
-    }
-
-    public void pedirPermisoMensaje() {
-        int permisocheck = ContextCompat.checkSelfPermission(this,Manifest.permission.SEND_SMS);
-
-        if(permisocheck==PackageManager.PERMISSION_GRANTED){
-
-        }else{
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.SEND_SMS},0);
-        }
-
-
 
 
     }

@@ -131,6 +131,7 @@ public class Registro extends AppCompatActivity implements View.OnClickListener{
 
                         DocumentReference documentReference = db.collection("users").document(userid);
                         Map<String,Object> user = new HashMap<>();
+                        user.put("name",nombre);
                         user.put("email",correo);
                         user.put("pass",pass);
                         documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
