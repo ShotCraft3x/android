@@ -142,7 +142,7 @@ public class Registro extends AppCompatActivity implements View.OnClickListener{
                             }
                         });
 
-                        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                        Intent intent = new Intent(getApplicationContext(),loginActivity.class);
                         startActivity(intent);
 
 

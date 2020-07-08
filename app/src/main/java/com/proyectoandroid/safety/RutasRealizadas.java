@@ -21,10 +21,10 @@ public class RutasRealizadas extends AppCompatActivity {
     ListView lista;
     //almacena los datos de los lugares
     String[][] datos={
-            { "","Horario:13:00-21:00" ,"Thoros Bike","-29.9058415","-71.2517834" },
-            { "","Horario:14:00-21:30" ,"Ciclos Acquea","-29.9058037","-71.2517834" },
-            { "","Horario:16:00-15:20" ,"Cycles Serena","-29.9057659","-71.2517834" },
-            { "","Horario:17:00-15:10" ,"Original Bike","-29.9329333","-71.2603048" },
+            { "","Tienda de bicicleta " ,"Thoros Bike","-29.9058415","-71.2517834" },
+            { "","Tienda de Deporte" ,"Ciclos Acquea","-29.9058037","-71.2517834" },
+            { "","Tienda de bicicleta" ,"Cycles Serena","-29.9057659","-71.2517834" },
+            { "","Tienda de deporte" ,"Original Bike","-29.9329333","-71.2603048" },
     };
     //Obtiene  las imagenes de la carpeta drawable
     int[] datosImg={R.drawable.thorobike,R.drawable.ciclesaquea,R.drawable.ciclesserena,R.drawable.originalbike};
