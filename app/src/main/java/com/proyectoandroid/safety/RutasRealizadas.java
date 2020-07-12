@@ -27,9 +27,9 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.proyectoandroid.Adapter.AdaptadorRutas;
-import com.proyectoandroid.Adapter.FotosAdapter;
+
 import com.proyectoandroid.Adapter.RutasAdapter;
-import com.proyectoandroid.Modelo.Fotos;
+
 import com.proyectoandroid.Modelo.Rutas;
 
 import java.util.ArrayList;
@@ -62,7 +62,9 @@ public class RutasRealizadas extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_lista_ruta);
+
         /*
         //instanciar la lista
         lista=(ListView) findViewById(R.id.lvLista);
@@ -101,7 +103,9 @@ public class RutasRealizadas extends AppCompatActivity {
         rutasAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent visorDetalle=new Intent(view.getContext(),RutaActivity.class);
+
 
                 visorDetalle.putExtra("lng",postLists.get(recyclerView.getChildAdapterPosition(view)).getLatitud());
                 visorDetalle.putExtra("lat",postLists.get(recyclerView.getChildAdapterPosition(view)).getLongitud());

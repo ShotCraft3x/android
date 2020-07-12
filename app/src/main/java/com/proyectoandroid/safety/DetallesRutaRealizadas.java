@@ -33,7 +33,6 @@ public class DetallesRutaRealizadas extends AppCompatActivity implements View.On
     private Button btnruta;
     private Button btnrutasafety;
 
-
     private double lat = 0.0;
     private double lng = 0.0;
 
@@ -43,7 +42,6 @@ public class DetallesRutaRealizadas extends AppCompatActivity implements View.On
     private double latruta = 0.0;
     private double lngruta = 0.0;
     private String nombrepunto = "";
-
 
 
     @Override
@@ -61,7 +59,6 @@ public class DetallesRutaRealizadas extends AppCompatActivity implements View.On
 
         Intent intent =getIntent();
         Bundle b=intent.getExtras();
-
 
 
 

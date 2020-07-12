@@ -25,8 +25,6 @@ class RutaActivity : AppCompatActivity() {
 
 
     //Iniciar una nueva ruta
-
-    //Iniciar una nueva ruta
     private var latruta = 0.0
     private var lngruta = 0.0
     private var nombrepunto = ""
@@ -54,12 +52,9 @@ class RutaActivity : AppCompatActivity() {
 
         btngoogle.setOnClickListener {
             startCronometro()
-
-            val p1 = LatLng(lat, lng)
-            val uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?q=loc:%f,%f", p1.latitude, p1.longitude)
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
-            startActivity(intent)
+            googlemap()
         }
+
         btnsafety.setOnClickListener {
            
             MapsActivity.isOn = true
@@ -70,8 +65,6 @@ class RutaActivity : AppCompatActivity() {
             intent.putExtra("name", nombrepunto)
             startActivity(intent)
         }
-
-
 
         mViewPager = findViewById(R.id.viewPager)
         mViewPager.adapter = DetalleRutaAdapter(supportFragmentManager, this)
@@ -85,6 +78,15 @@ class RutaActivity : AppCompatActivity() {
         startService(intentService)
     }
 
+    fun googlemap() {
+
+                startCronometro();
+
+                var p1 = LatLng(lat,lng);
+                var uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?q=loc:%f,%f", p1.latitude,p1.longitude)
+                var intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+                startActivity(intent)
+        }
 
     }
 

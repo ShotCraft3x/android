@@ -22,7 +22,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.proyectoandroid.Modelo.Fotos;
 import com.proyectoandroid.Modelo.Rutas;
 import com.proyectoandroid.safety.R;
 import com.squareup.picasso.Callback;
@@ -48,7 +47,9 @@ public class RutasAdapter extends RecyclerView.Adapter<RutasAdapter.ViewHolder>
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
+
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_ruta,parent,false);
+
 
         view.setOnClickListener(this);
 
