@@ -1,31 +1,28 @@
 package com.proyectoandroid.safety;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.PowerManager;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,38 +39,22 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-
-import org.json.JSONObject;
-
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         LocationListener, BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private int permisoubicacion;
-    private int tiempo = 0;
 
     private BottomNavigationView navigationview;
     private GoogleMap mMap;
-    Fragment fragmentseleccionado = null;
     private Marker marcador;
 
-    private LocationManager locationManager;
-    private static final long MIN_TIME = 400;
-    private static final float MIN_DISTANCE = 1000;
     private double lat = 0.0;
     private double lng = 0.0;
-
-    private MarkerOptions place1, place2;
-
-
-    public LocationListener locationListener = null;
-    public Location location = null;
-
 
     //Componentes del layout
     private Button btnpanico;
@@ -81,25 +62,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Button btncomenzar;
     private Button btnparar;
 
-
     //Variables para el PIN
     private boolean seBloqueoPantalla;
     private boolean cambioAplicacion;
-
     private TextView crono;
     static int seg = 0, minutos = 0, horas = 0;
-
-
     static boolean isOn = true;
     boolean corriendo = false;
 
     //GPS
     private boolean posicion = false;
-
-
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
 
+    //Intent de inicio de ruta
+    Double latruta = 0.0;
+    Double lngruta = 0.0;
+    String nombreruta = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,6 +109,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         crono.setText("00:00:00");
 
+        //Inicio del cronometro por parte de una ruta tomada con safety
+        Intent intent =getIntent();
+        Bundle b=intent.getExtras();
+        if(b!=null){
+            int res = b.getInt("op");
+            latruta = b.getDouble("lat");
+            lngruta = b.getDouble("lng");
+            nombreruta = b.getString("name");
+            if(res == 1){
+                iniciarCronometro();
+                //Se realiza el llamado al marcador para que aparezca en el mapa
+                //setMarcadorIniciado(lat,lng,nombreruta);
+            }
+
+        }
+
+
+
 
         //Esta parte es para recibir el cronometro en caso de que se inicie una ruta con google map
         miServicioNotificacion.isOn = false;
@@ -144,7 +141,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (miServicioNotificacion.isOn == false) {
                     //Aqui se para la notificacion
                     NotificationManager manager = getSystemService(NotificationManager.class);
-                    manager.deleteNotificationChannel(miServicioNotificacion.CHANNEL_ID);
+                    manager.deleteNotificationChannel(miServicioNotificacion.NOTIFICATION_CHANNEL_ID);
                 }
 
                 int s = intent.getIntExtra("seg", 0);
@@ -188,13 +185,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
+
+
     public void iniciarCronometro() {
         if (isOn == true) {
             CronometroMapa miCronometro = new CronometroMapa(crono);
             miCronometro.start();
 
+
         }
     }
+
+    //Aqui se inicia un marcador en el mapa dependiendo de la punto iniciado desde DetalleRutaRealizadas
+    public void setMarcadorIniciado(GoogleMap map,Double lat, Double lng,String nombre){
+Toast.makeText(getApplicationContext(),"Datos: " + lat + " " + lng + " " + nombre,Toast.LENGTH_SHORT).show();
+        mMap = map;
+        LatLng p1 = new LatLng(lng, lat);
+            mMap.addMarker(new MarkerOptions().position(p1).title(nombre).
+                    icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+
+
+    }
+
 
     //Metodo para setear los  marcadores en el mapa
     public void Marcadores(GoogleMap map) {
@@ -213,13 +225,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(p3).title("Cycles Serena").
                 icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
-
-        mMap.addMarker(new MarkerOptions().position(p1).title("Bicimania Elite Store\"").
-                icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-        mMap.addMarker(new MarkerOptions().position(p2).title("Thoros Bikes").
-                icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-        mMap.addMarker(new MarkerOptions().position(p3).title("Cycles Serena").
-                icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
     }
 
@@ -278,13 +283,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.getUiSettings().setZoomControlsEnabled(true);
         miUbicacion();
 
-        this.Marcadores(googleMap);
+        //this.Marcadores(googleMap);
+        if(!nombreruta.isEmpty()) {
+            setMarcadorIniciado(mMap, latruta, lngruta, nombreruta);
+        }
+
 
 
 
     }
-
-
 
     @Override
     public void onLocationChanged(Location location) {

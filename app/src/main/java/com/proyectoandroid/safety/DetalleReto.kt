@@ -8,8 +8,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
-import com.e.union.adapters.OnboardingViewPagerAdapter3
 import com.jaeger.library.StatusBarUtil
+import com.proyectoandroid.Adapter.OnboardingViewPagerAdapter3
 
 import kotlinx.android.synthetic.main.activity_onboarding_example3.*
 

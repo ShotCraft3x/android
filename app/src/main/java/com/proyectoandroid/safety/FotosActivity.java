@@ -26,9 +26,6 @@ public class FotosActivity extends AppCompatActivity {
 
     private LinearLayoutManager linearLayoutManager;
 
-    //Esto no
-    private List<String>followingList;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
