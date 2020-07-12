@@ -1,4 +1,4 @@
-package com.e.union.adapters
+package com.proyectoandroid.Adapter
 
 import android.content.Context
 import androidx.fragment.app.Fragment

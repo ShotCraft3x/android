@@ -4,29 +4,16 @@ public class Usuario {
 
     private String id;
     private String username;
-    private String fullname;
-    private String imageurl;
-    private String bio;
-
+    private String email;
+    private String pass;
 
     public Usuario() {
     }
 
-
-    public Usuario(String id, String username, String fullname, String imageurl, String bio) {
-        this.id = id;
+    public Usuario(String username, String email, String pass) {
         this.username = username;
-        this.fullname = fullname;
-        this.imageurl = imageurl;
-        this.bio = bio;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+        this.email = email;
+        this.pass = pass;
     }
 
     public String getUsername() {
@@ -37,27 +24,19 @@ public class Usuario {
         this.username = username;
     }
 
-    public String getFullname() {
-        return fullname;
+    public String getEmail() {
+        return email;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getImageurl() {
-        return imageurl;
+    public String getPass() {
+        return pass;
     }
 
-    public void setImageurl(String imageurl) {
-        this.imageurl = imageurl;
-    }
-
-    public String getBio() {
-        return bio;
-    }
-
-    public void setBio(String bio) {
-        this.bio = bio;
+    public void setPass(String pass) {
+        this.pass = pass;
     }
 }

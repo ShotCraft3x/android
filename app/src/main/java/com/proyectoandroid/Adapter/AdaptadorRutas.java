@@ -10,14 +10,14 @@ import android.widget.TextView;
 
 import com.proyectoandroid.safety.R;
 
-public class AdapRutas extends BaseAdapter {
+public class AdaptadorRutas extends BaseAdapter {
     //LayoutInflater es para instanciar el archivo de diseño xml
     private static LayoutInflater inflater=null;
     Context contexto;
     String[][] datos;
     int[] datosImg;
 
-    public AdapRutas(Context conexto, String[][] datos, int[] imagenes)
+    public AdaptadorRutas(Context conexto, String[][] datos, int[] imagenes)
     {
         this.contexto=conexto;
         this.datos=datos;
@@ -29,7 +29,7 @@ public class AdapRutas extends BaseAdapter {
     @Override
     public View getView(int i, View convertView, ViewGroup parent) {
 
-        final View vista = inflater.inflate(R.layout.elemento_ruta,null);
+        final View vista = inflater.inflate(R.layout.item_ruta,null);
         TextView fecha=(TextView) vista.findViewById(R.id.txt_fecha);
         TextView hora=(TextView) vista.findViewById(R.id.txt_distancia);
         TextView ruta=(TextView) vista.findViewById(R.id.txt_ruta);

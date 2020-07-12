@@ -20,17 +20,31 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.proyectoandroid.Adapter.DetalleRutaAdapter;
 
 import java.util.Locale;
+import java.util.Map;
 
 public class DetallesRutaRealizadas extends AppCompatActivity implements View.OnClickListener {
 
     private Button btnruta;
+    private Button btnrutasafety;
+
 
     private double lat = 0.0;
     private double lng = 0.0;
+
+
+    //Iniciar una nueva ruta
+
+    private double latruta = 0.0;
+    private double lngruta = 0.0;
+    private String nombrepunto = "";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,19 +54,21 @@ public class DetallesRutaRealizadas extends AppCompatActivity implements View.On
         TextView ruta=(TextView) findViewById(R.id.txt_ruta);
         TextView fecha=(TextView)findViewById(R.id.txt_fecha);
         btnruta = (Button)findViewById(R.id.btntomaruta);
+        btnrutasafety = (Button)findViewById(R.id.button2);
 
         btnruta.setOnClickListener(this);
+        btnrutasafety.setOnClickListener(this);
 
         Intent intent =getIntent();
         Bundle b=intent.getExtras();
 
-        if(b!=null){
-            ruta.setText(b.getString("RUT"));
-            fecha.setText(b.getString("FEC"));
-            lat = b.getDouble("lat");
-            lng = b.getDouble("lng");
 
 
+
+        if(b!=null) {
+            latruta = Double.valueOf(b.getString("lat"));
+            lngruta = Double.valueOf(b.getString("lng"));
+            nombrepunto = b.getString("name");
 
         }
     }
@@ -78,6 +94,20 @@ public class DetallesRutaRealizadas extends AppCompatActivity implements View.On
             LatLng p1 = new LatLng(lat,lng);
             String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?q=loc:%f,%f", p1.latitude,p1.longitude);
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+            startActivity(intent);
+
+
+
+        }
+
+
+        if(view.getId()==R.id.button2){
+            MapsActivity.isOn = true;
+            Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+            intent.putExtra("op",1);
+            intent.putExtra("lat",latruta);
+            intent.putExtra("lng",lngruta);
+            intent.putExtra("name",nombrepunto);
             startActivity(intent);
 
 

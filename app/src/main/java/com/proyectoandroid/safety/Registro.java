@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.proyectoandroid.Modelo.Usuario;
 import com.proyectoandroid.safety.R;
 
 import org.w3c.dom.Text;
@@ -36,6 +37,7 @@ public class Registro extends AppCompatActivity implements View.OnClickListener{
     private EditText etnombre;
     private EditText etcorreo;
     private  EditText etpass;
+    private  EditText etpass2;
     //private  EditText etapellidop;
     //private  EditText etapellidom;
     private Button btnregistro;
@@ -47,6 +49,7 @@ public class Registro extends AppCompatActivity implements View.OnClickListener{
     //private String apellidop = "";
     private String correo = "";
     private  String pass = "";
+    private  String pass2 = "";
     private ProgressBar progressbar;
 
     private FirebaseAuth mAuth;
@@ -69,6 +72,7 @@ public class Registro extends AppCompatActivity implements View.OnClickListener{
         progressbar = (ProgressBar)findViewById(R.id.progressBar);
         etcorreo = (EditText)findViewById(R.id.txtcorreo);
         etpass = (EditText)findViewById(R.id.txtpass);
+        etpass2 = (EditText)findViewById(R.id.txtpass2);
         btnregistro = (Button)findViewById(R.id.btnregistrar);
         btnregistro.setOnClickListener(this);
 
@@ -87,7 +91,7 @@ public class Registro extends AppCompatActivity implements View.OnClickListener{
             //apellidom = etapellidom.getText().toString();
             //apellidop = etapellidop.getText().toString();
             pass = etpass.getText().toString().trim();
-
+            pass2 = etpass2.getText().toString().trim();
 
             if(TextUtils.isEmpty(correo)){
                 etcorreo.setError("El correo es requerido");
@@ -101,6 +105,11 @@ public class Registro extends AppCompatActivity implements View.OnClickListener{
 
             if(pass.length() <6){
                 etpass.setError("La contraseña debe tener mas de 6 caracteres");
+            }
+
+            if(!pass.equals(pass2)){
+                etpass.setError("La contraseña deben ser iguales");
+                etpass2.setError("La contraseña deben ser iguales");
             }
 
 
@@ -130,10 +139,11 @@ public class Registro extends AppCompatActivity implements View.OnClickListener{
                         userid = mAuth.getCurrentUser().getUid();
 
                         DocumentReference documentReference = db.collection("users").document(userid);
-                        Map<String,Object> user = new HashMap<>();
-                        user.put("name",nombre);
-                        user.put("email",correo);
-                        user.put("pass",pass);
+
+
+                        Usuario user = new Usuario(nombre,correo,pass);
+
+
                         documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {

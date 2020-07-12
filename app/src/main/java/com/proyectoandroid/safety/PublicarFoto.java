@@ -1,9 +1,5 @@
 package com.proyectoandroid.safety;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
@@ -11,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -20,19 +15,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.proyectoandroid.Modelo.Fotos;
+import com.proyectoandroid.Modelo.Usuario;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -40,7 +44,6 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Objects;
 
 import id.zelory.compressor.Compressor;
@@ -49,16 +52,21 @@ import id.zelory.compressor.Compressor;
 public class PublicarFoto extends AppCompatActivity  {
 
 
-    Uri imageUri;
-    String myUrl = "";
+    private Uri imageUri;
+    private String myUrl = "";
 
-    StorageReference storageReference;
-    Bitmap thumb_bitmap = null;
-    ImageView foto,close;
-    TextView post;
-    EditText descripcion;
-    ProgressDialog cargando;
-    Button btn;
+    private StorageReference storageReference;
+    private Bitmap thumb_bitmap = null;
+    private ImageView foto,close;
+    private TextView post;
+    private EditText descripcion;
+    private ProgressDialog cargando;
+    private Button btn;
+
+    //Firestore
+    private FirebaseAuth mAuth;
+
+    String nombre = "";
 
 
 
@@ -72,9 +80,11 @@ public class PublicarFoto extends AppCompatActivity  {
         descripcion = findViewById(R.id.description);
         storageReference = FirebaseStorage.getInstance().getReference().child("img_comprimidas");
         cargando = new ProgressDialog(this);
+        mAuth = FirebaseAuth.getInstance();
 
 
         CropImage.startPickImageActivity(PublicarFoto.this);
+
 
 
     }
@@ -83,6 +93,31 @@ public class PublicarFoto extends AppCompatActivity  {
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
+    private String getNombre(){
+
+        String userid = mAuth.getCurrentUser().getUid();
+        nombre = "";
+        FirebaseDatabase.getInstance().getReference().child("users").child(userid)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        // Get user information
+                        Usuario user = dataSnapshot.getValue(Usuario.class);
+                        nombre = user.getUsername();
+                        Toast.makeText(getApplicationContext(),"Nombreeee3: " + nombre,Toast.LENGTH_SHORT).show();
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+        Toast.makeText(getApplicationContext(),"Nombreeee: " + nombre,Toast.LENGTH_SHORT).show();
+        return nombre;
     }
 
     @Override
@@ -124,8 +159,6 @@ public class PublicarFoto extends AppCompatActivity  {
                 final byte[] thumb_byte = byteArrayOutputStream.toByteArray();
                 //Fin del compresor
 
-
-
                 post.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -163,9 +196,9 @@ public class PublicarFoto extends AppCompatActivity  {
 
                                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Fotos_subidas");
 
-                                String titulo = "Rober";
+
                                 String id = reference.push().getKey();
-                                Fotos fotos = new Fotos(titulo,downloadUri.toString(),descripcion.getText().toString(),id);
+                                Fotos fotos = new Fotos(nombre,downloadUri.toString(),descripcion.getText().toString(),id);
 
 
                                 String postid = reference.push().getKey();

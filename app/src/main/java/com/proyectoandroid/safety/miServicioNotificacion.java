@@ -32,8 +32,9 @@ public class miServicioNotificacion extends Service {
     //Notificacion de ruta comenzada
     private PendingIntent pendingIntent;
     private PendingIntent mapsIntent;
-    final static String CHANNEL_ID = "Notificacion";
-    private final static int NOTIFICACION_ID = 0;
+
+    static String NOTIFICATION_CHANNEL_ID = "com.proyectoandroid.safety.miServicioNotificacion";
+    static String channelName = "My Background Service";
 
     private NotificationManager notificationManager;
 
@@ -54,31 +55,29 @@ public class miServicioNotificacion extends Service {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void crearNotificacion(){
         //mapsPendingIntent();
-        try {
-            Intent notificacionIntent = new Intent(this, MapsActivity.class);
+        Intent notificacionIntent = new Intent(this, MapsActivity.class);
 
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificacionIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificacionIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_NONE);
+        chan.setLightColor(Color.BLUE);
+        chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        assert manager != null;
+        manager.createNotificationChannel(chan);
 
-            Notification notification = new NotificationCompat.Builder(this,CHANNEL_ID)
-                    .setContentTitle("Ruta iniciada")
-                    .setContentText("Acabas de iniciar una ruta: " + reloj)
-                    .setSmallIcon(R.drawable.ic_directions_run_black_24dp)
-                    .setColor(Color.BLUE)
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .addAction(R.drawable.ic_parar, "Parar", pendingIntent)
-                    .addAction(R.drawable.ic_parar, "Panico", pendingIntent)
-                    .addAction(R.drawable.ic_parar, "Pausar", pendingIntent)
-                    .setAutoCancel(true)
-                    .build();    startForeground(1, notification);
-
-            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, "Ruta iniciada", NotificationManager.IMPORTANCE_DEFAULT);
-
-            notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(notificationChannel);
-
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
+        Notification notification = notificationBuilder.setOngoing(true)
+                .setContentTitle("Ruta iniciada")
+                .setContentText("Acabas de iniciar una ruta: " + reloj)
+                .setSmallIcon(R.drawable.ic_directions_run_black_24dp)
+                .setColor(Color.BLUE)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .addAction(R.drawable.ic_parar, "Parar", pendingIntent)
+                .addAction(R.drawable.ic_parar, "Panico", pendingIntent)
+                .addAction(R.drawable.ic_parar, "Pausar", pendingIntent)
+                .setAutoCancel(true)
+                .build();
+        startForeground(2, notification);
 
     }
 

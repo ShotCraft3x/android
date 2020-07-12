@@ -15,6 +15,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -24,7 +25,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity android:name=".FotosActivity"></activity>
-        <activity android:name=".PublicarFoto" />
         <activity android:name=".DetallesRutaRealizadas" />
 
         <service android:name=".miServicioNotificacion" />
@@ -43,6 +43,9 @@
         <activity android:name=".Cronometro"/>
         <activity android:name=".RutasRealizadas"/>
         <activity android:name=".Estadistica"/>
+        <activity android:name=".PublicarFoto"/>
+        <activity android:name=".RutaActivity"/>
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

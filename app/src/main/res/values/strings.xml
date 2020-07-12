@@ -14,6 +14,12 @@
     <string name="title_onboarding_3">Seguridad</string>
     <string name="description_onboarding_3">Siempre use un casco,Use ropa y equipo brillante y protector,Siga las normas de tráfico,Esté consciente de sus alrededores.</string>
 
+    <string name="title_GoogleMap">GoogleMap</string>
+    <string name="description_googlemap">Con Google Maps, puedes obtener indicaciones para ir a un sitio en coche, en transporte público, a pie o en bicicleta.</string>
+
+    <string name="title_safetyReto">Safety</string>
+    <string name="description_safetyReto">Con Safety,proveerá al usuario de una seguridad extra al momento de dar un paseo, ya sea para caminar, andar en bicicleta, o hacer algún otro deporte al aire libre, el cual requiera recorrer una distancia considerable.</string>
+
 
     <string name="start">start</string>
     <string name="skip">Salir</string>

@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.proyectoandroid.adapters.DescubreAdapter;
+import com.proyectoandroid.Adapter.DescubreAdapter;
 import com.proyectoandroid.fragments.DescubreFragment;
 
 import java.util.ArrayList;

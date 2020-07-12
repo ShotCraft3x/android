@@ -1,30 +1,30 @@
-package com.proyectoandroid.adapters;
+package com.proyectoandroid.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.proyectoandroid.safety.R;
-import com.proyectoandroid.fragments.PlazaDetFragment;
+import com.proyectoandroid.fragments.DescubreFragment;
 
 
 import java.util.List;
 
-
-public class PlazaDetAdapter extends RecyclerView.Adapter<PlazaDetAdapter.MyViewHolder> {
+public class DescubreAdapter extends RecyclerView.Adapter<DescubreAdapter.MyViewHolder> {
 
     private Context context;
 
-    private List<PlazaDetFragment> apps;
+    private List<DescubreFragment> apps;
 
 
-    public PlazaDetAdapter(Context context, List<PlazaDetFragment> apps) {
+    public DescubreAdapter(Context context, List<DescubreFragment> apps) {
         this.context = context;
         this.apps = apps;
 
@@ -37,16 +37,16 @@ public class PlazaDetAdapter extends RecyclerView.Adapter<PlazaDetAdapter.MyView
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            mName = itemView.findViewById(R.id.txt);
-            mdescrip = itemView.findViewById(R.id.sub_txt);
-            mImage = itemView.findViewById(R.id.img);
+            mName = itemView.findViewById(R.id.name);
+            mdescrip = itemView.findViewById(R.id.descripcion);
+            mImage = itemView.findViewById(R.id.image);
         }
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.item_plaza,parent,false);
+        View v = LayoutInflater.from(context).inflate(R.layout.item_descubre,parent,false);
 
         return new MyViewHolder(v);
     }
@@ -54,7 +54,7 @@ public class PlazaDetAdapter extends RecyclerView.Adapter<PlazaDetAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-       PlazaDetFragment app = apps.get(position);
+        DescubreFragment app = apps.get(position);
 
         holder.mName.setText(app.getName());
         holder.mdescrip.setText(app.getDescrip());
