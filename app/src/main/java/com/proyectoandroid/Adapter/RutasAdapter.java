@@ -59,12 +59,31 @@ public class RutasAdapter extends RecyclerView.Adapter<RutasAdapter.ViewHolder>
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         //Aqui hay algo
         final Rutas rutas = galerialist.get(position);
 
         holder.txtnombre.setText(rutas.getNombre());
         holder.txtdescripcion.setText(rutas.getDescripcion());
+
+        //cargar foto a la activity
+        Picasso.with(context).load(rutas.getImagen()).into(holder.img_foto, new Callback() {
+            //Cuando la imagen se carga exitosamente
+            @Override
+            public void onSuccess() {
+                //holder.progress.setVisibility(View.GONE);
+                //Se hace visible la imagen
+                holder.img_foto.setVisibility(View.VISIBLE);
+
+            }
+
+            @Override
+            public void onError() {
+
+                Toast.makeText(context,"Tienes un error", Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
     @Override

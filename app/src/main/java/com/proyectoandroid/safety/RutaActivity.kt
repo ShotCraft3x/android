@@ -29,9 +29,6 @@ class RutaActivity : AppCompatActivity() {
     private var lngruta = 0.0
     private var nombrepunto = ""
 
-    private val MY_PERMISSIONS_REQUEST_READ_CONTACTS = 0
-    private val MY_PERMISSIONS_REQUEST_SERVICE = 0
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ruta)
@@ -51,7 +48,6 @@ class RutaActivity : AppCompatActivity() {
         }
 
         btngoogle.setOnClickListener {
-            startCronometro()
             googlemap()
         }
 
@@ -81,9 +77,7 @@ class RutaActivity : AppCompatActivity() {
     fun googlemap() {
 
                 startCronometro();
-
-                var p1 = LatLng(lat,lng);
-                var uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?q=loc:%f,%f", p1.latitude,p1.longitude)
+                var uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?q=loc:%f,%f", latruta,lngruta)
                 var intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
                 startActivity(intent)
         }

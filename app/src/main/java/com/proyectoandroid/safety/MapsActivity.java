@@ -198,9 +198,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     //Aqui se inicia un marcador en el mapa dependiendo de la punto iniciado desde DetalleRutaRealizadas
     public void setMarcadorIniciado(GoogleMap map,Double lat, Double lng,String nombre){
-Toast.makeText(getApplicationContext(),"Datos: " + lat + " " + lng + " " + nombre,Toast.LENGTH_SHORT).show();
         mMap = map;
-        LatLng p1 = new LatLng(lng, lat);
+        LatLng p1 = new LatLng(lat, lng);
             mMap.addMarker(new MarkerOptions().position(p1).title(nombre).
                     icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 

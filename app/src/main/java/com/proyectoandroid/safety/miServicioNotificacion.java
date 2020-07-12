@@ -25,7 +25,7 @@ public class miServicioNotificacion extends Service {
 
     //Cronometro de la notificacion
     static int seg = 0, minutos = 0, horas = 0;
-    static boolean isOn = true;
+    static boolean isOn = false;
     static boolean corriendo = false;
     private String reloj;
 
@@ -77,7 +77,7 @@ public class miServicioNotificacion extends Service {
                 .addAction(R.drawable.ic_parar, "Pausar", pendingIntent)
                 .setAutoCancel(true)
                 .build();
-        startForeground(2, notification);
+        startForeground(1, notification);
 
     }
 

@@ -107,8 +107,8 @@ public class RutasRealizadas extends AppCompatActivity {
                 Intent visorDetalle=new Intent(view.getContext(),RutaActivity.class);
 
 
-                visorDetalle.putExtra("lng",postLists.get(recyclerView.getChildAdapterPosition(view)).getLatitud());
-                visorDetalle.putExtra("lat",postLists.get(recyclerView.getChildAdapterPosition(view)).getLongitud());
+                visorDetalle.putExtra("lng",postLists.get(recyclerView.getChildAdapterPosition(view)).getLongitud());
+                visorDetalle.putExtra("lat",postLists.get(recyclerView.getChildAdapterPosition(view)).getLatitud());
                 visorDetalle.putExtra("name",postLists.get(recyclerView.getChildAdapterPosition(view)).getNombre());
                 startActivity(visorDetalle);
 

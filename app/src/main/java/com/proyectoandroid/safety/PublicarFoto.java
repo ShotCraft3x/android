@@ -32,6 +32,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -65,6 +67,7 @@ public class PublicarFoto extends AppCompatActivity  {
 
     //Firestore
     private FirebaseAuth mAuth;
+    private FirebaseFirestore mStore;
 
     String nombre = "";
 
@@ -81,6 +84,8 @@ public class PublicarFoto extends AppCompatActivity  {
         storageReference = FirebaseStorage.getInstance().getReference().child("img_comprimidas");
         cargando = new ProgressDialog(this);
         mAuth = FirebaseAuth.getInstance();
+        mStore = FirebaseFirestore.getInstance();
+        getNombre();
 
 
         CropImage.startPickImageActivity(PublicarFoto.this);
@@ -95,29 +100,20 @@ public class PublicarFoto extends AppCompatActivity  {
         return mime.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
-    private String getNombre(){
+    private void getNombre(){
 
         String userid = mAuth.getCurrentUser().getUid();
         nombre = "";
-        FirebaseDatabase.getInstance().getReference().child("users").child(userid)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        // Get user information
-                        Usuario user = dataSnapshot.getValue(Usuario.class);
-                        nombre = user.getUsername();
-                        Toast.makeText(getApplicationContext(),"Nombreeee3: " + nombre,Toast.LENGTH_SHORT).show();
 
+       mStore.collection("users").document(userid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+           @Override
+           public void onSuccess(DocumentSnapshot documentSnapshot) {
+               if(documentSnapshot.exists()){
+                   nombre = documentSnapshot.getString("username");
+               }
+           }
+       });
 
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-        Toast.makeText(getApplicationContext(),"Nombreeee: " + nombre,Toast.LENGTH_SHORT).show();
-        return nombre;
     }
 
     @Override
@@ -187,29 +183,12 @@ public class PublicarFoto extends AppCompatActivity  {
                             public void onComplete(@NonNull Task<Uri> task) {
                                 Uri downloadUri = task.getResult();
 
-
-
-
-
-
-
-
                                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Fotos_subidas");
-
-
                                 String id = reference.push().getKey();
                                 Fotos fotos = new Fotos(nombre,downloadUri.toString(),descripcion.getText().toString(),id);
-
-
                                 String postid = reference.push().getKey();
-
                                 reference.push().setValue(fotos);
-
-
-
-
                                 cargando.dismiss();
-
                                 Toast.makeText(PublicarFoto.this, "Imagen cargada con exito", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
                                 startActivity(intent);

@@ -25,7 +25,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity android:name=".FotosActivity"></activity>
-        <activity android:name=".DetallesRutaRealizadas" />
 
         <service android:name=".miServicioNotificacion" />
 
