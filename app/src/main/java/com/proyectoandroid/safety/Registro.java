@@ -3,6 +3,7 @@ package com.proyectoandroid.safety;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -31,7 +32,7 @@ import org.w3c.dom.Text;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Registro extends AppCompatActivity implements View.OnClickListener{
+public class Registro extends AppCompatActivity implements View.OnClickListener,Dialogo.ExampleDialogListener{
 
     private String TAG;
     private EditText etnombre;
@@ -86,11 +87,9 @@ public class Registro extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-        this.openDialog();
-          /*  nombre = etnombre.getText().toString().trim();
+
+          nombre = etnombre.getText().toString().trim();
             correo = etcorreo.getText().toString().trim();
-            //apellidom = etapellidom.getText().toString();
-            //apellidop = etapellidop.getText().toString();
             pass = etpass.getText().toString().trim();
             pass2 = etpass2.getText().toString().trim();
 
@@ -106,47 +105,39 @@ public class Registro extends AppCompatActivity implements View.OnClickListener{
 
             if(pass.length() <6){
                 etpass.setError("La contraseña debe tener mas de 6 caracteres");
+                return;
             }
 
             if(!pass.equals(pass2)){
                 etpass.setError("La contraseña deben ser iguales");
                 etpass2.setError("La contraseña deben ser iguales");
+                return;
             }
 
 
-            progressbar.setVisibility(View.VISIBLE);
-            this.openDialog();
-            this.RegistrarUsuario();*/
-
-
-
-
-
-
+        openDialog(getApplicationContext(),nombre,correo,pass);
 
     }
-    public void openDialog() {
+    public void openDialog(Context c, String nombre, String correo, String pass) {
         Dialogo exampleDialog = new Dialogo();
         exampleDialog.show(getSupportFragmentManager(), "example dialog");
     }
 
-    public void RegistrarUsuario(){
+
+    public void RegistrarUsuario(final String pin){
             mAuth.createUserWithEmailAndPassword(correo,pass).addOnCompleteListener(this,new OnCompleteListener<AuthResult>() {
 
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
-
-
                         Toast.makeText(getApplicationContext(),"Registro exitoso!",Toast.LENGTH_LONG).show();
-
                         //Obtenemos la id del usuario registrado
                         userid = mAuth.getCurrentUser().getUid();
 
                         DocumentReference documentReference = db.collection("users").document(userid);
 
 
-                        Usuario user = new Usuario(nombre,correo,pass);
+                        Usuario user = new Usuario(nombre,correo,pass,pin);
 
 
                         documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -167,5 +158,17 @@ public class Registro extends AppCompatActivity implements View.OnClickListener{
                     }
                 }
             });
+    }
+
+    @Override
+    public void applyTexts(String password) {
+        Toast.makeText(getApplicationContext(),"Valor: " + password,Toast.LENGTH_SHORT).show();
+        this.RegistrarUsuario(password);
+
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
 }

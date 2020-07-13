@@ -6,14 +6,24 @@ public class Usuario {
     private String username;
     private String email;
     private String pass;
+    private String pin;
 
     public Usuario() {
     }
 
-    public Usuario(String username, String email, String pass) {
+    public Usuario(String username, String email, String pass, String pin) {
         this.username = username;
         this.email = email;
         this.pass = pass;
+        this.pin = pin;
+    }
+
+    public String getPin() {
+        return pin;
+    }
+
+    public void setPin(String pin) {
+        this.pin = pin;
     }
 
     public String getUsername() {
