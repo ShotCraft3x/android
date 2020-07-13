@@ -13,7 +13,7 @@ import com.proyectoandroid.safety.R
 
 import kotlinx.android.synthetic.main.fragment_onboarding3.view.*
 
-class OnboardingFragment3 : Fragment() {
+class DetalleReto : Fragment() {
     private lateinit var title: String
     private lateinit var description: String
     private lateinit var backgroundColor: String
@@ -24,6 +24,12 @@ class OnboardingFragment3 : Fragment() {
     private lateinit var layout:  RelativeLayout
     private lateinit var mFakeStatusBar:  View
 
+
+    //Iniciar una nueva ruta
+    private var latruta = 0.0
+    private var lngruta = 0.0
+    private var nombrepunto = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
@@ -32,6 +38,8 @@ class OnboardingFragment3 : Fragment() {
             imageResource = arguments!!.getInt(ARG_PARAM3)
             backgroundColor = arguments!!.getString(ARG_PARAM4)!!
         }
+
+
     }
 
     override fun onCreateView(
@@ -65,8 +73,8 @@ class OnboardingFragment3 : Fragment() {
             description: String?,
             imageResource: Int,
             backgroundColor: String
-        ): OnboardingFragment3 {
-            val fragment = OnboardingFragment3()
+        ): DetalleReto {
+            val fragment = DetalleReto()
             val args = Bundle()
             args.putString(ARG_PARAM1, title)
             args.putString(ARG_PARAM2, description)

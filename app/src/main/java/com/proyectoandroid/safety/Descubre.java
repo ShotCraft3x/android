@@ -1,70 +1,240 @@
 package com.proyectoandroid.safety;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.proyectoandroid.Adapter.DescubreAdapter;
-import com.proyectoandroid.fragments.DescubreFragment;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.proyectoandroid.Adapter.RetosAdapter;
+import com.proyectoandroid.Adapter.PlazaDetAdapter;
+import com.proyectoandroid.Modelo.MaquinasEjercicios;
+import com.proyectoandroid.Modelo.Retos;
+import com.proyectoandroid.Modelo.Rutas;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Descubre extends AppCompatActivity {
 
-    RecyclerView mList1,mList2;
+    private RecyclerView mList1,mList2;
     private Button button;
     private Button button2;
-    List<DescubreFragment> appList ;
-    List<DescubreFragment> appList2;
+    private FirebaseFirestore mstore;
+
+
+    private RetosAdapter adapterretos;
+    private PlazaDetAdapter adapterplazas;
+
+    //Para retos
+    private ArrayList<Retos> appList ;
+    private LinearLayoutManager linearLayoutManager;
+
+    //Para plazas
+    private ArrayList<Rutas> listaPlazas;
+    private LinearLayoutManager linearLayoutManager2;
+
+    private ProgressDialog cargando;
+
+    //Valores a pasar a otra activity
+    private String beneficio = "";
+    private String seguridad = "";
+
+    //Para los datos de las maquinas
+    private ArrayList<MaquinasEjercicios> listamaquinas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_descubre);
+        mstore = FirebaseFirestore.getInstance();
+        cargando = new ProgressDialog(this);
 
+        //Referencias a variables
         button = (Button)findViewById(R.id.button);
         button2 = (Button)findViewById(R.id.button2);
-
         mList1 = findViewById(R.id.list1);
         mList2 = findViewById(R.id.list2);
+
+        //Insercion de retos
+        linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mList1.setHasFixedSize(true);
+        mList1.setLayoutManager(linearLayoutManager);
+
         appList = new ArrayList<>();
+        adapterretos = new RetosAdapter(this,appList);
+        mList1.setAdapter(adapterretos);
 
-        appList.add(new DescubreFragment(R.drawable.objreto,"Reto kilometro","(Completa 3 kilometro en..)"));
-        appList.add(new DescubreFragment(R.drawable.objreto,"Reto de Tiempo","(Compleeta 1 hrs en..)"));
-        appList.add(new DescubreFragment(R.drawable.objreto,"Reto velocidad","(Midiendo la tiempo de ...)"));
-        appList.add(new DescubreFragment(R.drawable.objreto,"Reto nose","(nose que colocar..)"));
-        appList.add(new DescubreFragment(R.drawable.objreto,"Reto de altura","(saltar en la cama)"));
-        appList.add(new DescubreFragment(R.drawable.objreto,"Reto de ejercicio","(Dormir)"));
+        ObtenerDatosRetos();
 
-        appList2 = new ArrayList<>();
+        //Insercion de plazas
+        linearLayoutManager2 = new LinearLayoutManager(this);
+        linearLayoutManager2.setReverseLayout(true);
+        linearLayoutManager2.setStackFromEnd(true);
+        linearLayoutManager2.setOrientation(LinearLayoutManager.VERTICAL);
+        mList2.setHasFixedSize(true);
+        mList2.setLayoutManager(linearLayoutManager2);
 
-        appList2.add(new DescubreFragment(R.drawable.plazamujer1,"Plaza de la mujer",""));
-        appList2.add(new DescubreFragment(R.drawable.plaza,"Plaza del tofo",""));
-        appList2.add(new DescubreFragment(R.drawable.plaza,"Plaza a dormir",""));
-        appList2.add(new DescubreFragment(R.drawable.plaza,"Plaza X",""));
-        appList2.add(new DescubreFragment(R.drawable.plaza,"Plaza 1",""));
-        appList2.add(new DescubreFragment(R.drawable.plaza,"Plaza 2",""));
+        listaPlazas = new ArrayList<>();
+        adapterplazas = new PlazaDetAdapter(this,listaPlazas);
+        mList2.setAdapter(adapterplazas);
 
-        LinearLayoutManager manager1 = new LinearLayoutManager(this);
-        manager1.setOrientation(LinearLayoutManager.HORIZONTAL);
-        mList1.setLayoutManager(manager1);
+        ObtenerDatosPlazas();
 
-        LinearLayoutManager manager2 = new LinearLayoutManager(this);
-        manager2.setOrientation(LinearLayoutManager.HORIZONTAL);
-        mList2.setLayoutManager(manager2);
+        //Onclick del recycle view de retos
+        adapterretos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cargando.setTitle("Abriendo reto");
+                cargando.setMessage("Espere por favor..");
+                cargando.show();
+                int idbeneficio = appList.get(mList1.getChildAdapterPosition(view)).getId_tipobeneficio();
+                int idseguridad = appList.get(mList1.getChildAdapterPosition(view)).getId_tiposeguridad();
+                ObtenerDatosBeneficio(String.valueOf(idbeneficio));
+                ObtenerDatosSeguridad(String.valueOf(idseguridad));
 
-        DescubreAdapter adaptor1 = new DescubreAdapter(this,appList);
-        mList1.setAdapter(adaptor1);
+                if(!seguridad.isEmpty() && !beneficio.isEmpty()) {
+                    Intent visorDetalle = new Intent(view.getContext(), RutaActivity.class);
+                    visorDetalle.putExtra("nombre", appList.get(mList1.getChildAdapterPosition(view)).getNombre());
+                    visorDetalle.putExtra("descripcion", appList.get(mList1.getChildAdapterPosition(view)).getDescripcion());
+                    visorDetalle.putExtra("beneficio", beneficio);
+                    visorDetalle.putExtra("seguridad", seguridad);
 
-        DescubreAdapter adaptor2 = new DescubreAdapter(this,appList2);
-        mList2.setAdapter(adaptor2);
+                    Toast.makeText(getApplicationContext(), "Valoresss: " + beneficio, Toast.LENGTH_SHORT).show();
+                    cargando.dismiss();
+                    //startActivity(visorDetalle);
+                }
+
+            }
+        });
+
+        //Onclick del recycle view de plazas
+        adapterplazas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent visorDetalle=new Intent(view.getContext(),RutaActivity.class);
+                visorDetalle.putExtra("nombre", appList.get(mList1.getChildAdapterPosition(view)).getNombre());
+                //String idplaza = listamaquinas.get(mList2.getChildAdapterPosition(view)).get;
+
+
+
+                //visorDetalle.putExtra("lng",listaPlazas.get(mList2.getChildAdapterPosition(view)).getNombre());
+                //visorDetalle.putExtra("name",postLists.get(recyclerView.getChildAdapterPosition(view)).getNombre());
+                startActivity(visorDetalle);
+            }
+        });
+
     }
+
+
+    public void ObtenerDatosRetos(){
+
+        CollectionReference collectionReference = mstore.collection("Retos");
+        collectionReference.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                appList.removeAll(appList);
+                for(QueryDocumentSnapshot snapshot: queryDocumentSnapshots){
+                    Retos retos = snapshot.toObject(Retos.class);
+
+                    appList.add(retos);
+                }
+
+                adapterretos.notifyDataSetChanged();
+
+            }
+        });
+    }
+
+    public void ObtenerDatosPlazas(){
+
+        CollectionReference collectionReference = mstore.collection("Rutas_recomendadas");
+        collectionReference.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                listaPlazas.removeAll(listaPlazas);
+                for(QueryDocumentSnapshot snapshot: queryDocumentSnapshots){
+                    Rutas fotos = snapshot.toObject(Rutas.class);
+                    if(fotos.getID_TipoLugar()==3) {
+                        listaPlazas.add(fotos);
+                    }
+                    adapterplazas.notifyDataSetChanged();
+                }
+            }
+        });
+    }
+
+    //Metodo para obtener el beneficio de firebase de acuerdo al id
+    public void ObtenerDatosBeneficio(String id){
+        mstore.collection("BeneficioReto").document(id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(documentSnapshot.exists()){
+                    beneficio = documentSnapshot.getString("tipobeneficio");
+                }
+
+            }
+        });
+    }
+
+    //Metodo para obtener la seguridad desde firebase de acuerdo al id
+    public void ObtenerDatosSeguridad(String id){
+        mstore.collection("SeguridadReto").document(id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(documentSnapshot.exists()){
+                    seguridad = documentSnapshot.getString("tiposeguridad");
+                    //Toast.makeText(getApplicationContext(), "BALOR" + seguridad[0], Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+
+    }
+
+    public void ObtenerDatosMaquinas(){
+
+        CollectionReference collectionReference = mstore.collection("Rutas_recomendadas");
+        collectionReference.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                listamaquinas.removeAll(listamaquinas);
+                for(QueryDocumentSnapshot snapshot: queryDocumentSnapshots){
+                    MaquinasEjercicios maquinas = snapshot.toObject(MaquinasEjercicios.class);
+                    listamaquinas.add(maquinas);
+
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //Para que empiece a mostrar cada articulo de la firebase
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+    }
+
     public void onClick(View v) {
         if(v.getId() == R.id.button){
             Intent intent = new Intent(this.getApplicationContext(), DetalleReto.class);

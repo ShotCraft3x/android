@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.proyectoandroid.Adapter.PlazaDetAdapter;
+import com.proyectoandroid.Modelo.Rutas;
 import com.proyectoandroid.fragments.PlazaDetFragment;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import java.util.List;
 public class PlazaDetalle extends AppCompatActivity {
 
     RecyclerView mList1;
-    List<PlazaDetFragment> appList ;
+    List<Rutas> appList ;
     private Button bntUbic;
 
 
@@ -34,11 +35,11 @@ public class PlazaDetalle extends AppCompatActivity {
 
         appList = new ArrayList<>();
 
-        appList.add(new PlazaDetFragment(R.drawable.caminador_aereo,"Caminador aereo","Ejercicio para piernas"));
+       /* appList.add(new PlazaDetFragment(R.drawable.caminador_aereo,"Caminador aereo","Ejercicio para piernas"));
         appList.add(new PlazaDetFragment(R.drawable.elipticachi1,"Simulador de ski simple","Ejercicio para piernas"));
         appList.add(new PlazaDetFragment(R.drawable.caminador_aereo,"Ejemplo","descripcion"));
         appList.add(new PlazaDetFragment(R.drawable.caminador_aereo,"Ejemplo","descripcion"));
-
+*/
 
 
         LinearLayoutManager manager1 = new LinearLayoutManager(this);

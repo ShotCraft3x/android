@@ -297,19 +297,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         marcador.remove();
         actualizarUbicacion(location);
         posicion = true;
-        Toast.makeText(getApplicationContext(),"Cambio de lugar",Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(),"Cambio de lugar",Toast.LENGTH_LONG).show();
         /*LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         Toast.makeText(getApplicationContext(),"Latitud: " + location.getLatitude(), Toast.LENGTH_LONG).show();
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
         mMap.animateCamera(cameraUpdate);
-        locationManager.removeUpdates(this);*/
-    }
+        locationManager.removeUpdates(this);*/    }
 
     @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {
 
-        Toast.makeText(getApplicationContext(),"Estado cambiado",Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(),"Estado cambiado",Toast.LENGTH_LONG).show();
 
 
     }

@@ -46,22 +46,16 @@ public class RutasAdapter extends RecyclerView.Adapter<RutasAdapter.ViewHolder>
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_ruta,parent,false);
-
-
         view.setOnClickListener(this);
-
         ViewHolder holder = new RutasAdapter.ViewHolder(view);
-
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         //Aqui hay algo
-        final Rutas rutas = galerialist.get(position);
+        Rutas rutas = galerialist.get(position);
 
         holder.txtnombre.setText(rutas.getNombre());
         holder.txtdescripcion.setText(rutas.getDescripcion());

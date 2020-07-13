@@ -50,46 +50,13 @@ public class RutasRealizadas extends AppCompatActivity {
 
     //Matriz
     private RecyclerView recyclerView;
-    //almacena los datos de los lugares
-    String[][] datos={
-            { "","Tienda de bicicleta " ,"Thoros Bike","-29.9058415","-71.2517834" },
-            { "","Tienda de Deporte" ,"Ciclos Acquea","-29.9058037","-71.2517834" },
-            { "","Tienda de bicicleta" ,"Cycles Serena","-29.9057659","-71.2517834" },
-            { "","Tienda de deporte" ,"Original Bike","-29.9329333","-71.2603048" },
-    };
-    //Obtiene  las imagenes de la carpeta drawable
-    int[] datosImg={R.drawable.thorobike,R.drawable.ciclesaquea,R.drawable.ciclesserena,R.drawable.originalbike};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_lista_ruta);
-
-        /*
-        //instanciar la lista
-        lista=(ListView) findViewById(R.id.lvLista);
-
-        lista.setAdapter(new AdaptadorRutas(this,datos,datosImg));
-
-        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent visorDetalle=new Intent(view.getContext(), DetallesRutaRealizadas.class);
-                visorDetalle.putExtra("FEC",datos[position][0]);
-                visorDetalle.putExtra("HOR",datos[position][1]);
-
-                visorDetalle.putExtra("RUT",datos[position][2]);
-
-                //------------------------
-                visorDetalle.putExtra("lat",Double.valueOf(datos[position][3]));
-                visorDetalle.putExtra("lng",Double.valueOf(datos[position][4]));
-
-                startActivity(visorDetalle);
-            }
-        });
-
-         */
         mstore = FirebaseFirestore.getInstance();
+
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
@@ -99,21 +66,18 @@ public class RutasRealizadas extends AppCompatActivity {
         postLists = new ArrayList<>();
         rutasAdapter = new RutasAdapter(this,postLists);
         recyclerView.setAdapter(rutasAdapter);
+
         obtenerRutas();
+
+        //Onclick del recycle view
         rutasAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent visorDetalle=new Intent(view.getContext(),RutaActivity.class);
-
-
                 visorDetalle.putExtra("lng",postLists.get(recyclerView.getChildAdapterPosition(view)).getLongitud());
                 visorDetalle.putExtra("lat",postLists.get(recyclerView.getChildAdapterPosition(view)).getLatitud());
                 visorDetalle.putExtra("name",postLists.get(recyclerView.getChildAdapterPosition(view)).getNombre());
                 startActivity(visorDetalle);
-
-
-
             }
         });
 
@@ -127,11 +91,12 @@ public class RutasRealizadas extends AppCompatActivity {
         collectionReference.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-
                 postLists.removeAll(postLists);
                 for(QueryDocumentSnapshot snapshot: queryDocumentSnapshots){
                     Rutas fotos = snapshot.toObject(Rutas.class);
-                    postLists.add(fotos);
+                    if(fotos.getID_TipoLugar()==1) {
+                        postLists.add(fotos);
+                    }
                 }
 
                 rutasAdapter.notifyDataSetChanged();

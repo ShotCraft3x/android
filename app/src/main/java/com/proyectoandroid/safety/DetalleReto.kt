@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.jaeger.library.StatusBarUtil
-import com.proyectoandroid.Adapter.OnboardingViewPagerAdapter3
+import com.proyectoandroid.Adapter.DetalleRetoAdapter
 
 import kotlinx.android.synthetic.main.activity_onboarding_example3.*
 
@@ -29,7 +29,7 @@ class DetalleReto : AppCompatActivity() {
         textSkip = text_skip
         textEnd = text_end
         btnNextStep = btn_next_step
-        mViewPager.adapter = OnboardingViewPagerAdapter3(supportFragmentManager, this)
+        mViewPager.adapter = DetalleRetoAdapter(supportFragmentManager, this)
         mViewPager.offscreenPageLimit = 1
         viewPager.addOnPageChangeListener(object : OnPageChangeListener {
             override fun onPageSelected(position: Int) {
