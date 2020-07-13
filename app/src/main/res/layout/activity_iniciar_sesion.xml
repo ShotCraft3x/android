@@ -7,6 +7,7 @@
     tools:context=".IniciarSesion"
     android:orientation="vertical"
     android:padding="20dp"
+    android:background="@color/md_green_400"
     >
 
 
@@ -19,6 +20,7 @@
         android:textSize="30dp"
         android:text="Inicio sesion"
         android:textColor="@color/text_black"/>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/username_text_input_layout"
         android:layout_width="match_parent"
@@ -59,11 +61,11 @@
     <Button
         android:layout_marginTop="40dp"
         android:id="@+id/btniniciar"
-android:background="#DFDFDF"
+        android:background="@drawable/round"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Iniciar"
-        android:textColor="@color/text_black"/>
+        android:textColor="@color/design_default_color_surface"/>
 
 
 </LinearLayout>

@@ -86,7 +86,8 @@ public class Registro extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-            nombre = etnombre.getText().toString().trim();
+        this.openDialog();
+          /*  nombre = etnombre.getText().toString().trim();
             correo = etcorreo.getText().toString().trim();
             //apellidom = etapellidom.getText().toString();
             //apellidop = etapellidop.getText().toString();
@@ -114,15 +115,19 @@ public class Registro extends AppCompatActivity implements View.OnClickListener{
 
 
             progressbar.setVisibility(View.VISIBLE);
-
-            this.RegistrarUsuario();
-
-
+            this.openDialog();
+            this.RegistrarUsuario();*/
 
 
 
 
 
+
+
+    }
+    public void openDialog() {
+        Dialogo exampleDialog = new Dialogo();
+        exampleDialog.show(getSupportFragmentManager(), "example dialog");
     }
 
     public void RegistrarUsuario(){
