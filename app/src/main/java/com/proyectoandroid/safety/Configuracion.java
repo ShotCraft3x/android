@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -33,8 +34,10 @@ public class Configuracion extends AppCompatActivity implements View.OnClickList
     private Button button;
     private Button btnregistro;
     private ImageButton btnagregar;
+    private ImageButton btneliminar;
     private String nombreContacto = "";
     private String numeroContacto = "";
+    private EditText txtpin;
     private ListView listcontactos;
     static final int FLAG_CONTACT = 1; //Variable para comprobar los contactos, si es 1 fue correcto
 
@@ -51,8 +54,11 @@ public class Configuracion extends AppCompatActivity implements View.OnClickList
         button = (Button)findViewById(R.id.btncerrarsesion);
         btnregistro = (Button)findViewById(R.id.btnregistrar);
         btnagregar = (ImageButton)findViewById(R.id.btnagregar);
+        btneliminar = (ImageButton)findViewById(R.id.btneliminar);
         listcontactos = (ListView)findViewById(R.id.listacontactos);
+        txtpin = (EditText) findViewById(R.id.txtpin);
         btnagregar.setOnClickListener(this);
+        btneliminar.setOnClickListener(this);
         btnregistro.setOnClickListener(this);
         button.setOnClickListener(this);
         this.llenarLista();
@@ -99,11 +105,24 @@ public class Configuracion extends AppCompatActivity implements View.OnClickList
             }
         }
 
+        if(view.getId()==R.id.btneliminar){
+            pedirPermisoMensaje();
+            ContactDB contact = new ContactDB(this);
+            contact.eliminarDatos();
+            //this.llenarLista();
+
+        }
+
         if(view.getId() == R.id.btnregistrar){
             ContactDB contact = new ContactDB(this);
             //Aqui se hace el registro de los contactos en la SQLITE
-            contact.registrarDatos(nombreContacto,numeroContacto);
-            this.llenarLista();
+            String pin = txtpin.getText().toString().trim();
+            Toast.makeText(getApplicationContext(), "PIN: " + pin, Toast.LENGTH_SHORT).show();
+
+
+                contact.registrarDatos(nombreContacto,numeroContacto);
+                this.llenarLista();
+
         }
 
 

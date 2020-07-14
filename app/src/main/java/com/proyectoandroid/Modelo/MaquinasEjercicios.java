@@ -1,23 +1,28 @@
 package com.proyectoandroid.Modelo;
 
-public class MaquinasEjercicios {
+import java.io.Serializable;
 
-    private int ID_RutaRecomendada;
+public class MaquinasEjercicios implements Serializable {
+
     private String nombre;
     private String descripcion;
+    private String imagen;
 
-    public MaquinasEjercicios(int ID_RutaRecomendada, String nombre, String descripcion) {
-        this.ID_RutaRecomendada = ID_RutaRecomendada;
+    public MaquinasEjercicios(String nombre, String descripcion, String imagen) {
         this.nombre = nombre;
         this.descripcion = descripcion;
+        this.imagen = imagen;
     }
 
-    public int getID_RutaRecomendada() {
-        return ID_RutaRecomendada;
+    public MaquinasEjercicios() {
     }
 
-    public void setID_RutaRecomendada(int ID_RutaRecomendada) {
-        this.ID_RutaRecomendada = ID_RutaRecomendada;
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     public String getNombre() {

@@ -42,6 +42,12 @@ public class Dialogo extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String password = editTextPassword.getText().toString();
+
+
+
+
+
+
                         listener.applyTexts(password);
                     }
                 });

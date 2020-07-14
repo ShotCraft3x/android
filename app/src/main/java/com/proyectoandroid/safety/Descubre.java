@@ -20,9 +20,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.proyectoandroid.Adapter.RetosAdapter;
 import com.proyectoandroid.Adapter.PlazaDetAdapter;
 import com.proyectoandroid.Modelo.MaquinasEjercicios;
+import com.proyectoandroid.Modelo.Plazas;
 import com.proyectoandroid.Modelo.Retos;
 import com.proyectoandroid.Modelo.Rutas;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Descubre extends AppCompatActivity {
@@ -41,7 +43,7 @@ public class Descubre extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
 
     //Para plazas
-    private ArrayList<Rutas> listaPlazas;
+    private ArrayList<Plazas> listaPlazas;
     private LinearLayoutManager linearLayoutManager2;
 
     private ProgressDialog cargando;
@@ -121,19 +123,21 @@ public class Descubre extends AppCompatActivity {
             }
         });
 
+        //Inicializacion del array de las maquinas
+        listamaquinas = new ArrayList<>();
         //Onclick del recycle view de plazas
         adapterplazas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent visorDetalle=new Intent(view.getContext(),RutaActivity.class);
-                visorDetalle.putExtra("nombre", appList.get(mList1.getChildAdapterPosition(view)).getNombre());
-                //String idplaza = listamaquinas.get(mList2.getChildAdapterPosition(view)).get;
+                Intent intent = new Intent(view.getContext(), PlazaDetalle.class);
+
+                String iddocumento = listaPlazas.get(mList2.getChildAdapterPosition(view)).getIddocumento();
+                ObtenerDatosMaquinas(iddocumento);
+                intent.putExtra("miLista", (Serializable) listamaquinas);
 
 
 
-                //visorDetalle.putExtra("lng",listaPlazas.get(mList2.getChildAdapterPosition(view)).getNombre());
-                //visorDetalle.putExtra("name",postLists.get(recyclerView.getChildAdapterPosition(view)).getNombre());
-                startActivity(visorDetalle);
+                startActivity(intent);
             }
         });
 
@@ -162,15 +166,15 @@ public class Descubre extends AppCompatActivity {
     public void ObtenerDatosPlazas(){
 
         CollectionReference collectionReference = mstore.collection("Rutas_recomendadas");
-        collectionReference.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        collectionReference.whereEqualTo("ID_TipoLugar",3).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 listaPlazas.removeAll(listaPlazas);
                 for(QueryDocumentSnapshot snapshot: queryDocumentSnapshots){
-                    Rutas fotos = snapshot.toObject(Rutas.class);
-                    if(fotos.getID_TipoLugar()==3) {
-                        listaPlazas.add(fotos);
-                    }
+                    Plazas fotos = snapshot.toObject(Plazas.class);
+                    fotos.setIddocumento(snapshot.getId());
+                    listaPlazas.add(fotos);
+
                     adapterplazas.notifyDataSetChanged();
                 }
             }
@@ -206,10 +210,11 @@ public class Descubre extends AppCompatActivity {
 
     }
 
-    public void ObtenerDatosMaquinas(){
+    public void ObtenerDatosMaquinas(String id){
+        CollectionReference notebookRef = mstore.collection("Rutas_recomendadas");
 
-        CollectionReference collectionReference = mstore.collection("Rutas_recomendadas");
-        collectionReference.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        notebookRef.document(id).collection("MaquinasEjercicios")
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 listamaquinas.removeAll(listamaquinas);
@@ -220,6 +225,8 @@ public class Descubre extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 
     @Override

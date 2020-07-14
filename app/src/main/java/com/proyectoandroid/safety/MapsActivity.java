@@ -351,12 +351,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         if(item.getItemId() == R.id.nav_estadisticas){
-            if(mAuth.getCurrentUser()!=null) {
-               Intent intentestatistica = new Intent(this.getApplicationContext(), Estadistica.class);
-               startActivity(intentestatistica);
-            }else{
-                MensajeSesion();
-            }
+
         }
 
         if(item.getItemId() == R.id.nav_rutasrealizadas){

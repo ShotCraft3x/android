@@ -29,7 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="20"
-            android:inputType="textPersonName"
+            android:inputType="number"
+            android:maxLength="4"
             android:hint="PIN" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -65,13 +66,23 @@
             android:layout_marginRight="40dp"/>
 
         <ImageButton
-            android:layout_marginTop="17dp"
-            android:src="@drawable/ic_person_add_black_24dp"
             android:id="@+id/btnagregar"
-            android:background="#ffff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-             />
+            android:layout_marginTop="17dp"
+            android:background="#ffff"
+            android:src="@drawable/ic_person_add_black_24dp" />
+
+
+        <ImageButton
+
+            android:id="@+id/btneliminar"
+            android:layout_width="38dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="17dp"
+            android:layout_marginLeft="10dp"
+            android:background="#ffff"
+            android:src="@drawable/ic_eliminar" />
 
     </LinearLayout>
 
