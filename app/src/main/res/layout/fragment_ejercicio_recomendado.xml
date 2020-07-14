@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#59AE5C"
+    tools:context=".EjercicioRecomendadoFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationView"
+                android:layout_width="wrap_content"
+                android:layout_height="286dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/cool_animated2" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="344dp"
+                android:text="El abdominal corto, conocido en inglés como crunch, es uno de los ejercicios abdominales más populares. Principalmente trabaja el músculo recto abdominal y también trabaja los músculos oblicuos. Este ejercicio abdominal comienza con la cara boca arriba descansando en el suelo con las rodillas dobladas."
+                android:textColor="#FFFFFF"
+                android:textSize="18dp"
+                android:textAlignment="center"
+                app:layout_constraintStart_toStartOf="@+id/animationView"
+                app:layout_constraintTop_toTopOf="@+id/animationView" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationView2"
+                android:layout_width="0dp"
+                android:layout_height="286dp"
+                android:layout_marginTop="520dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/cool_animated" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="344dp"
+                android:text="Conocidas como sentadillas, tienen un papel muy importante en el acondicionamiento de los músculos del abdomen más allá de fortalecer las piernas. “Cuando realizas squats, especialmente los músculos extensores, el recto abdominal y los oblicuos abdominales así como el músculo erector de la columna permiten a tu tren superior permanecer en posición erguida”, aclara el entrenador. Por supuesto también están consideradas un ejercicio muy efectivo a la hora de perder peso, tanto es así que incluso surgió el reto de las 100 sentadillas al día y que promete ser un gran quemagrasas si no se pierden más de tres segundos en cada subida y bajada"
+                android:textColor="#FFFFFF"
+                android:textSize="18dp"
+                android:textAlignment="center"
+                app:layout_constraintStart_toStartOf="@+id/animationView2"
+                app:layout_constraintTop_toTopOf="@+id/animationView2" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationView3"
+                android:layout_width="0dp"
+                android:layout_height="286dp"
+                android:layout_marginTop="400dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/textView2"
+                app:layout_constraintTop_toTopOf="@+id/textView2"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/cool_animated3"
+                />
+
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="344dp"
+                android:text="Otro formidable ejercicio para aumentar tu ritmo cardíaco y quemar calorías son las zancadas. Con ellas ejercitarás la parte inferior de tu cuerpo empleando tu propio peso, pero si además las realizas con pesas, aumentarán los beneficios. otras modalidades son las zancadas caminando, zancadas hacia los lados, zancadas con una pierna elevada y zancadas con saltos."
+                android:textColor="#FFFFFF"
+                android:textSize="18dp"
+                android:textAlignment="center"
+                app:layout_constraintStart_toStartOf="@+id/animationView3"
+                app:layout_constraintTop_toTopOf="@+id/animationView3" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationView4"
+                android:layout_width="0dp"
+                android:layout_height="286dp"
+                android:layout_marginTop="350dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/textView3"
+                app:layout_constraintTop_toTopOf="@+id/textView3"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/cool_animated4"
+                />
+
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="344dp"
+                android:text="El término “pushup” (flexión) deriva de la simple descripción del movimiento que se realiza para levantar el cuerpo del suelo. Según Peinado, se trabajan principalmente los músculos grandes del pecho, así como los tríceps: “pero ten en cuenta que hay muchos más músculos involucrados, que hacen que el Pushup sea un gran ejercicio corporal completo”, recuerda."
+                android:textColor="#FFFFFF"
+                android:textSize="18dp"
+                android:textAlignment="center"
+                app:layout_constraintStart_toStartOf="@+id/animationView4"
+                app:layout_constraintTop_toTopOf="@+id/animationView4" />
+
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationView5"
+                android:layout_width="0dp"
+                android:layout_height="286dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/textView4"
+                app:layout_constraintTop_toBottomOf="@+id/textView4"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/cool_animated5" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="344dp"
+                android:text="Saltar la cuerda quema 374 calorias en 30 minutos. Es el ejercicio más utilizado por los boxeadores para perder peso rápido antes del pesaje oficial. Para optimizar la práctica, se debe utilizar una cuerda que no supere el alto de las axilas cuando se está parado. Además, hay que saltar con los pies ligeramente separados y el cuerpo bien derecho. Los saltos no deben ser muy altos."
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/animationView5"
+                app:layout_constraintTop_toTopOf="@+id/animationView5"/>
+
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="Mantente en forma"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="@+id/textView5"
+                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

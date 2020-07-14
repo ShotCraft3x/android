@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#512DA8"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".OtrooFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationView"
+                android:layout_width="wrap_content"
+                android:layout_height="286dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/superalimento1" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:text="El huevo es uno de los alimentos más completos. Una combinación perfecta de proteína de alta calidad biológica, ácidos grasos saludables y múltiples vitaminas y minerales. Ricos además en nutrientes en los que muchas dietas modernas son deficientes. A su poder nutricional se suma una gran versatilidad. Puedes comerlos de mil maneras (revueltos, fritos, pochados, en tortilla…), solos o acompañados."
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/animationView" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationView2"
+                android:layout_width="0dp"
+                android:layout_height="286dp"
+                android:layout_marginTop="520dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/superalimento2" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="344dp"
+                android:text="Al igual que el huevo, la palta ha sido injustamente restringido en multitud de dietas convencionales, ¡toda esa peligrosa grasa!. Hoy están demostrados sus muchos beneficios, mediados en parte por su alto contenido en ácido oleico. Además, es rico en vitaminas K, C, E, B5, B6 y folato. Tiene más potasio que el plátano, siendo el potasio un mineral muchas veces deficiente en la dieta, y fundamental para mantener el equilibrio sodio-potasio, reduciendo la presión arterial y el riesgo de enfermedad coronaria."
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="@+id/animationView2"
+                app:layout_constraintTop_toTopOf="@+id/animationView2" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationView3"
+                android:layout_width="0dp"
+                android:layout_height="286dp"
+                android:layout_marginTop="400dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/textView2"
+                app:layout_constraintTop_toTopOf="@+id/textView2"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/superalimento3" />
+
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="344dp"
+                android:text="Al igual que el cacao, es un potente revitalizante que aporta energía de inmediato. Además, tomado con precaución y pequeñas cantidades, favorece la eliminación de grasas. ¡Cuidado con las cantidades! Si te pasas de la raya puede favorecer el estrés y aumentar de talla."
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="@+id/animationView3"
+                app:layout_constraintTop_toTopOf="@+id/animationView3" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationView4"
+                android:layout_width="0dp"
+                android:layout_height="286dp"
+                android:layout_marginTop="350dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/textView3"
+                app:layout_constraintTop_toTopOf="@+id/textView3"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/superalimento4" />
+
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="344dp"
+                android:text="Puede no ser un reconocido por mucha como un alimento pero el beber agua permite acelerar los efectos de una dieta hipocalórica, adelgazando más rápido y quitando la sensación de hambre. El alimento más diet que existe es el agua. No tiene calorías, colabora a eliminar toxinas porque colabora con el drenaje. En si se puede definir como un SUPERALIMENTO."
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="@+id/animationView4"
+                app:layout_constraintTop_toTopOf="@+id/animationView4" />
+
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationView5"
+                android:layout_width="0dp"
+                android:layout_height="286dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/textView4"
+                app:layout_constraintTop_toBottomOf="@+id/textView4"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/superalimento5" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="344dp"
+                android:text="Y para finalizar este grupo de SUPERALIMENTOS no podiamos olvidar a ningun@ de ell@s, estas son las increibles y muy poco caloricas Frutas y verduras. Las frutas y las verduras tienen cualidades nutricionales únicas: son bajas en calorías, contienen gran cantidad de agua, vitaminas hidrosolubles como vitamina C, ácido fólico, vitaminas del complejo B, vitaminas liposolubles como beta carotenos, vitamina A, E y K , minerales donde se destaca el potasio, magnesio y fibra. Si tú consumes diariamente frutas y hortalizas frescas puedes prevenir el desarrollo de enfermedades cardiovasculares, trastornos digestivos, algunos tipos de cáncer y enfermedades neurodegenerativas, además te ayuda a luchar contra el sobrepeso y la obesidad."
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/animationView5"
+                app:layout_constraintTop_toTopOf="@+id/animationView5" />
+
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="Mantente en forma"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="@+id/textView5"
+                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+
+</FrameLayout>

@@ -31,5 +31,10 @@
     <string name="hint_minute">Minutos</string>
     <string name="message_minutes"></string>
 
+
     <string name="start_text_advice">Al continuar con esta aplicación, usted acepta nuestros Términos de uso y Política de privacidad</string>
+    <string name="app_estadistica">Estadisticas</string>
+    <string name="tab_text_1">Calculo de Calorias</string>
+    <string name="tab_text_2">Ejercicios Recomendados</string>
+    <string name="tab_text_3">Alimentacion Saludable</string>
 </resources>
