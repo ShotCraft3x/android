@@ -21,18 +21,18 @@ class loginAdapter(manager: FragmentManager,
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> loginFragment.newInstance(
-                context.resources.getString(R.string.title_onboarding_1),
-                context.resources.getString(R.string.description_onboarding_1),
+                context.resources.getString(R.string.tituloSafety),
+                context.resources.getString(R.string.description_safetylogin),
                 R.raw.robot_alerta
             )
             1 -> loginFragment.newInstance(
-                context.resources.getString(R.string.title_onboarding_2),
-                context.resources.getString(R.string.description_onboarding_2),
+                context.resources.getString(R.string.titulosafety1),
+                context.resources.getString(R.string.description_safetylogin1),
                 R.raw.lottie_developer
             )
             2 -> loginFragment.newInstance(
-                context.resources.getString(R.string.title_onboarding_3),
-                context.resources.getString(R.string.description_onboarding_3),
+                context.resources.getString(R.string.titulosafety2),
+                context.resources.getString(R.string.description_safetylogin2),
                 R.raw.salud
             )
             else -> null

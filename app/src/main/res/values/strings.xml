@@ -20,6 +20,15 @@
     <string name="title_safetyReto">Safety</string>
     <string name="description_safetyReto">Con Safety,proveerá al usuario de una seguridad extra al momento de dar un paseo, ya sea para caminar, andar en bicicleta, o hacer algún otro deporte al aire libre, el cual requiera recorrer una distancia considerable.</string>
 
+    <string name="tituloSafety">Safety</string>
+    <string name="description_safetylogin">Con Safety,proveerá al usuario de una seguridad extra al momento de dar un paseo, ya sea para caminar, andar en bicicleta, o hacer algún otro deporte al aire libre, el cual requiera recorrer una distancia considerable.</string>
+
+    <string name="titulosafety1">Descubrirás nuevas cosas</string>
+    <string name="description_safetylogin1">Conoce nuevos lugares que no conocias, el mundo es demasiado bonito como para verlo desde casa, sal y descúbrelo </string>
+
+    <string name="titulosafety2">Cuida tu salud</string>
+    <string name="description_safetylogin2">El cuerpo humano necesita realizar actividad fisica al menos 30 minutos al dia, 5 veces por semana</string>
+
 
     <string name="start">start</string>
     <string name="skip">Salir</string>
