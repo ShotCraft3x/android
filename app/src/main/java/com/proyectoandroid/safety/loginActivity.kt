@@ -68,24 +68,33 @@ class loginActivity : AppCompatActivity() {
 
     private fun verificarPermisos() {
         val permsRequestCode = 100
-        val perms = arrayOf(permission.ACCESS_FINE_LOCATION, permission.ACCESS_COARSE_LOCATION,
-                permission.CAMERA,permission.SEND_SMS,permission.FOREGROUND_SERVICE,
-                permission.WRITE_EXTERNAL_STORAGE,permission.READ_EXTERNAL_STORAGE)
+        val perms = arrayOf(permission.ACCESS_FINE_LOCATION,
+                permission.ACCESS_COARSE_LOCATION,
+                permission.CAMERA,
+                permission.SEND_SMS,
+                permission.FOREGROUND_SERVICE,
+                permission.WRITE_EXTERNAL_STORAGE,
+                permission.READ_EXTERNAL_STORAGE,
+                permission.READ_CONTACTS)
 
         val accessFinePermission = checkSelfPermission(permission.ACCESS_FINE_LOCATION)
         val accessCoarsePermission = checkSelfPermission(permission.ACCESS_COARSE_LOCATION)
         val cameraPermission = checkSelfPermission(permission.CAMERA)
-
         val permisomensaje = checkSelfPermission(permission.SEND_SMS)
-
         val permisolectura = checkSelfPermission(permission.READ_EXTERNAL_STORAGE)
         val permisoescritura = checkSelfPermission(permission.WRITE_EXTERNAL_STORAGE)
         val permisoservicio = checkSelfPermission(permission.FOREGROUND_SERVICE)
+        val permisocontacto = checkSelfPermission(permission.READ_CONTACTS)
 
-        if (cameraPermission == PackageManager.PERMISSION_GRANTED && accessFinePermission == PackageManager.PERMISSION_GRANTED
-                && accessCoarsePermission == PackageManager.PERMISSION_GRANTED && permisomensaje == PackageManager.PERMISSION_GRANTED
-                && permisolectura == PackageManager.PERMISSION_GRANTED && permisoescritura == PackageManager.PERMISSION_GRANTED
-                && permisoservicio == PackageManager.PERMISSION_GRANTED) {
+        if (cameraPermission == PackageManager.PERMISSION_GRANTED
+                && accessFinePermission == PackageManager.PERMISSION_GRANTED
+                && accessCoarsePermission == PackageManager.PERMISSION_GRANTED
+                && permisomensaje == PackageManager.PERMISSION_GRANTED
+                && permisolectura == PackageManager.PERMISSION_GRANTED
+                && permisoescritura == PackageManager.PERMISSION_GRANTED
+                && permisoservicio == PackageManager.PERMISSION_GRANTED
+                && permisoservicio == PackageManager.PERMISSION_GRANTED
+                && permisocontacto == PackageManager.PERMISSION_GRANTED) {
             //se realiza metodo si es necesario...
         } else {
             requestPermissions(perms, permsRequestCode)

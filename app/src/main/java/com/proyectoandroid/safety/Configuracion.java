@@ -23,11 +23,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.proyectoandroid.Modelo.ContactAdapter;
 import com.proyectoandroid.Modelo.ContactDB;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Configuracion extends AppCompatActivity implements View.OnClickListener{
 
@@ -47,10 +50,15 @@ public class Configuracion extends AppCompatActivity implements View.OnClickList
     private ContactDB cb;
     private int size = 0;
 
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore mStore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configuracion);
+        mStore = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         button = (Button)findViewById(R.id.btncerrarsesion);
         btnregistro = (Button)findViewById(R.id.btnregistrar);
         btnagregar = (ImageButton)findViewById(R.id.btnagregar);
@@ -109,7 +117,7 @@ public class Configuracion extends AppCompatActivity implements View.OnClickList
             pedirPermisoMensaje();
             ContactDB contact = new ContactDB(this);
             contact.eliminarDatos();
-            //this.llenarLista();
+            this.llenarLista();
 
         }
 
@@ -117,15 +125,24 @@ public class Configuracion extends AppCompatActivity implements View.OnClickList
             ContactDB contact = new ContactDB(this);
             //Aqui se hace el registro de los contactos en la SQLITE
             String pin = txtpin.getText().toString().trim();
-            Toast.makeText(getApplicationContext(), "PIN: " + pin, Toast.LENGTH_SHORT).show();
-
-
-                contact.registrarDatos(nombreContacto,numeroContacto);
-                this.llenarLista();
+            if(!pin.isEmpty()){
+                setPin(pin);
+                Toast.makeText(getApplicationContext(), "PIN Actualizado correctamente!", Toast.LENGTH_SHORT).show();
+            }
+            contact.registrarDatos(nombreContacto, numeroContacto);
+            this.llenarLista();
 
         }
 
 
+
+    }
+
+    private void setPin(String pin){
+        String userid = mAuth.getCurrentUser().getUid();
+        Map<String,Object> map = new HashMap<>();
+        map.put("pin",pin);
+        mStore.collection("users").document(userid).update(map);
 
     }
 

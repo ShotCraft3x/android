@@ -79,8 +79,6 @@ public class ContactDB {
                     cantidad_filas = db.delete("contactos","",null);
                     if(cantidad_filas == 1){
                         Toast.makeText(context,"Los datos han sido eliminados",Toast.LENGTH_LONG).show();
-                        Configuracion conf = new Configuracion();
-                        conf.llenarLista();
 
                     }
                     db.close();
