@@ -42,6 +42,7 @@
         <activity android:name=".RutasRealizadas" />
         <activity android:name=".PublicarFoto" />
         <activity android:name=".RutaActivity" />
+        <activity android:name=".Estadistica"/>
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

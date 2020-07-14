@@ -351,6 +351,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         if(item.getItemId() == R.id.nav_estadisticas){
+            Intent intent = new Intent(this.getApplicationContext(), Estadistica.class);
+            startActivity(intent);
 
         }
 
