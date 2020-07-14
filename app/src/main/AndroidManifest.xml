@@ -40,7 +40,6 @@
         <activity android:name=".PlazaDetalle" />
         <activity android:name=".Cronometro" />
         <activity android:name=".RutasRealizadas" />
-        <activity android:name=".Estadistica" />
         <activity android:name=".PublicarFoto" />
         <activity android:name=".RutaActivity" />
         <!--

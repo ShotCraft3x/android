@@ -11,27 +11,25 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.proyectoandroid.Modelo.MaquinasEjercicios;
 import com.proyectoandroid.Modelo.Plazas;
-import com.proyectoandroid.Modelo.Rutas;
 import com.proyectoandroid.safety.R;
-import com.proyectoandroid.fragments.PlazaDetFragment;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-
 
 import java.util.List;
 
 
-public class PlazaDetAdapter extends RecyclerView.Adapter<PlazaDetAdapter.MyViewHolder> implements View.OnClickListener{
+public class MaquinasAdapter extends RecyclerView.Adapter<MaquinasAdapter.MyViewHolder> implements View.OnClickListener{
 
     private Context context;
 
-    private List<Plazas> apps;
+    private List<MaquinasEjercicios> apps;
 
     private View.OnClickListener listener;
 
 
-    public PlazaDetAdapter(Context context, List<Plazas> apps) {
+    public MaquinasAdapter(Context context, List<MaquinasEjercicios> apps) {
         this.context = context;
         this.apps = apps;
     }
@@ -40,9 +38,10 @@ public class PlazaDetAdapter extends RecyclerView.Adapter<PlazaDetAdapter.MyView
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_plaza,parent,false);
+        Toast.makeText(context, "Llego aqui", Toast.LENGTH_SHORT).show();
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_maquinas,parent,false);
         view.setOnClickListener(this);
-        MyViewHolder holder = new PlazaDetAdapter.MyViewHolder(view);
+        MyViewHolder holder = new MaquinasAdapter.MyViewHolder(view);
 
         return holder;
     }
@@ -50,8 +49,7 @@ public class PlazaDetAdapter extends RecyclerView.Adapter<PlazaDetAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
 
-       Plazas app = apps.get(position);
-
+       MaquinasEjercicios app = apps.get(position);
         holder.mName.setText(app.getNombre());
         holder.mdescrip.setText(app.getDescripcion());
 

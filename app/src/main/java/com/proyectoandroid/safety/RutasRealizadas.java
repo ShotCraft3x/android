@@ -48,6 +48,7 @@ public class RutasRealizadas extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
 
 
+
     //Matriz
     private RecyclerView recyclerView;
 
@@ -63,6 +64,7 @@ public class RutasRealizadas extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycle_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
+
         postLists = new ArrayList<>();
         rutasAdapter = new RutasAdapter(this,postLists);
         recyclerView.setAdapter(rutasAdapter);
@@ -87,16 +89,14 @@ public class RutasRealizadas extends AppCompatActivity {
     }
 
     public void obtenerRutas(){
-        CollectionReference collectionReference = mstore.collection("Rutas_recomendadas");
-        collectionReference.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        CollectionReference notebookrRef = mstore.collection("Rutas_recomendadas");
+        notebookrRef.whereEqualTo("ID_TipoLugar",1).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 postLists.removeAll(postLists);
                 for(QueryDocumentSnapshot snapshot: queryDocumentSnapshots){
                     Rutas fotos = snapshot.toObject(Rutas.class);
-                    if(fotos.getID_TipoLugar()==1) {
-                        postLists.add(fotos);
-                    }
+                    postLists.add(fotos);
                 }
 
                 rutasAdapter.notifyDataSetChanged();
